@@ -1,0 +1,28 @@
+{
+  "name": "langflow_sample",
+  "private": true,
+  "author": "gabriel.ribeiro.ramos.pro@gmail.com",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "biome format --write",
+    "check": "turbo run check",
+    "check-types": "turbo run check-types",
+    "prepare": "husky",
+    "commit": "gitmoji -c"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.11",
+    "@commitlint/cli": "^20.3.1",
+    "commitlint-config-gitmoji": "^2.3.1",
+    "gitmoji-cli": "^9.7.0",
+    "husky": "^9.1.7",
+    "turbo": "^2.7.5",
+    "typescript": "5.9.2"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18"
+  }
+}
