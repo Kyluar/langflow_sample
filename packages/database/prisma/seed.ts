@@ -1,11 +1,7 @@
-import { PrismaPg } from '@prisma/adapter-pg'
-import { DATABASE_URL } from '../prisma.config'
-import { type Prisma, PrismaClient } from '../src/generated/prisma/client'
+import type { Prisma } from '../src/generated/prisma/client'
+import { PrismaClientFactory } from '../src/lib/utils'
 
-const connectionString = `${DATABASE_URL}`
-
-const adapter = new PrismaPg({ connectionString })
-const prisma = new PrismaClient({ adapter })
+const prisma = PrismaClientFactory()
 
 const seedUsers: Prisma.UserCreateInput[] = [
 	{
@@ -62,11 +58,10 @@ async function main() {
 }
 
 main()
-	.then(async () => {
-		await prisma.$disconnect()
-	})
-	.catch(async (e) => {
+	.catch((e) => {
 		console.error(e)
-		await prisma.$disconnect()
 		process.exit(1)
+	})
+	.finally(async () => {
+		await prisma.$disconnect()
 	})
