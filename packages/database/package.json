@@ -6,6 +6,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "lint": "biome lint --write",
+    "format": "biome format --write",
+    "check-types": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
