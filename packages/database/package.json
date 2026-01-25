@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Shared db types",
   "private": true,
-  "main": "index.js",
+  "exports": {
+    "./*": "./src/*.ts"
+  },
   "type": "module",
   "scripts": {
     "lint": "biome lint --write",
