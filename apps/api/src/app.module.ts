@@ -4,6 +4,9 @@ import { CustomPrismaModule } from 'nestjs-prisma/dist/custom'
 import { config, validate } from './lib/config/env'
 import { prisma } from './lib/extensions/prisma.extension'
 import { UsersModule } from './users/users.module'
+import { APP_PIPE, APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core'
+import { ZodValidationPipe, ZodSerializerInterceptor } from 'nestjs-zod'
+import { HttpExceptionFilter } from './lib/filters/http.exception.filter'
 
 @Module({
 	imports: [
@@ -21,5 +24,19 @@ import { UsersModule } from './users/users.module'
 		}),
 		UsersModule
 	],
+	providers: [
+		{
+			provide: APP_PIPE,
+			useClass: ZodValidationPipe
+		},
+		{
+			provide: APP_INTERCEPTOR,
+			useClass: ZodSerializerInterceptor
+		},
+		{
+			provide: APP_FILTER,
+			useClass: HttpExceptionFilter
+		}
+	]
 })
 export class AppModule {}
