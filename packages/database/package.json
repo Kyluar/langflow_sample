@@ -4,10 +4,22 @@
   "description": "Shared db types",
   "private": true,
   "exports": {
-    "./*": "./src/*.ts"
+    "./generated/prisma/client": {
+      "types": "./dist/src/generated/prisma/client.d.ts",
+      "default": "./dist/src/generated/prisma/client.js"
+    },
+    "./lib/utils": {
+      "types": "./dist/src/lib/utils.d.ts",
+      "default": "./dist/src/lib/utils.js"
+    },
+    "./generated/prisma/*": {
+      "types": "./dist/src/generated/prisma/*.d.ts",
+      "default": "./dist/src/generated/prisma/*.js"
+    }
   },
   "type": "module",
   "scripts": {
+    "build": "tsc",
     "lint": "biome lint --write",
     "format": "biome format --write",
     "check-types": "tsc --noEmit",

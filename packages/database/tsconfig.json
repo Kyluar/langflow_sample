@@ -1,5 +1,10 @@
 {
     "extends": "@repo/typescript-config/database.json",
+    "compilerOptions": {
+        "outDir": "./dist",   
+        "declaration": true,  
+        "declarationMap": true
+      },
     "include": [
         "src",
         "prisma",
