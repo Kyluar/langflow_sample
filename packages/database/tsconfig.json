@@ -1,9 +1,17 @@
 {
-    "extends": "@repo/typescript-config/database.json",
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "extends": "@repo/typescript-config/base.json",
+    "compilerOptions": {
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "target": "ES2023",
+        "strict": true,
+        "esModuleInterop": true
+    },
     "include": [
         "src",
         "prisma",
-        "prisma.config.ts",
+        "prisma.config.ts"
     ],
     "exclude": ["node_modules", "dist"]
 }
