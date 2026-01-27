@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "Shared schemas and types",
   "exports": {
-    "./*": "./src/*.ts"
+    ".": {"types": "./src/index.ts", "default": "./dist/index.js"}
   },
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
     "lint": "biome lint --write",
     "format": "biome format --write",
     "check-types": "tsc --noEmit",

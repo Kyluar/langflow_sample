@@ -3,7 +3,7 @@ import {
 	type ApiEnvDtoOutput,
 	apiEnvSchema,
 	type NodeEnv
-} from '@repo/schemas/config/env'
+} from '@repo/schemas'
 
 export function getConfig(): ApiEnvDtoOutput {
 	const config: ApiEnvDtoInput = {
