@@ -1,102 +1,63 @@
-import { Button } from '@repo/ui/button'
-import Image, { type ImageProps } from 'next/image'
-import styles from './page.module.css'
-
-type Props = Omit<ImageProps, 'src'> & {
-	srcLight: string
-	srcDark: string
-}
-
-const ThemeImage = (props: Props) => {
-	const { srcLight, srcDark, ...rest } = props
-
-	return (
-		<>
-			<Image {...rest} src={srcLight} className="imgLight" />
-			<Image {...rest} src={srcDark} className="imgDark" />
-		</>
-	)
-}
+import Image from 'next/image'
+import { Logo } from '@repo/ui/logo'
+import Link from 'next/link'
 
 export default function Home() {
-	return (
-		<div className={styles.page}>
-			<main className={styles.main}>
-				<ThemeImage
-					className={styles.logo}
-					srcLight="turborepo-dark.svg"
-					srcDark="turborepo-light.svg"
-					alt="Turborepo logo"
-					width={180}
-					height={38}
-					priority
-				/>
-				<ol>
-					<li>
-						Get started by editing <code>apps/web/app/page.tsx</code>
-					</li>
-					<li>Save and see your changes instantly.</li>
-				</ol>
+	const menuItems = [
+		{ id: 'item-1', label: 'item-1' },
+		{ id: 'item-2', label: 'item-2' },
+		{ id: 'item-3', label: 'item-3' },
+		{ id: 'item-4', label: 'item-4' },
+		{ id: 'item-5', label: 'item-5' },
+		{ id: 'item-6', label: 'item-6' },
+		{ id: 'item-7', label: 'item-7' }
+	]
 
-				<div className={styles.ctas}>
-					<a
-						className={styles.primary}
-						href="https://vercel.com/new/clone?demo-description=Learn+to+implement+a+monorepo+with+a+two+Next.js+sites+that+has+installed+three+local+packages.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F4K8ZISWAzJ8X1504ca0zmC%2F0b21a1c6246add355e55816278ef54bc%2FBasic.png&demo-title=Monorepo+with+Turborepo&demo-url=https%3A%2F%2Fexamples-basic-web.vercel.sh%2F&from=templates&project-name=Monorepo+with+Turborepo&repository-name=monorepo-turborepo&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fturborepo%2Ftree%2Fmain%2Fexamples%2Fbasic&root-directory=apps%2Fdocs&skippable-integrations=1&teamSlug=vercel&utm_source=create-turbo"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<Image
-							className={styles.logo}
-							src="/vercel.svg"
-							alt="Vercel logomark"
-							width={20}
-							height={20}
-						/>
-						Deploy now
-					</a>
-					<a
-						href="https://turborepo.dev/docs?utm_source"
-						target="_blank"
-						rel="noopener noreferrer"
-						className={styles.secondary}
-					>
-						Read our docs
-					</a>
+	return (
+		<div className="flex min-h-screen font-sans selection:bg-ctd-azul-02/20 bg-ctd-fundo">
+			{/* HEADER */}
+			<header className="bg-gradient-to-b from-ctd-azul-01 to-ctd-azul-02 py-16 px-6 text-center text-white shadow-md w-72 flex flex-col items-center">
+				<div className="mb-8 p-4 flex justify-center">
+					<div className="font-black text-2xl tracking-tighter">
+						<Logo color="white" />
+					</div>
 				</div>
-				<Button appName="web" className={styles.secondary}>
-					Open alert
-				</Button>
+
+				<h1 className="text-xl font-bold tracking-tight mb-5 border-b-[2] border-white/20 pb-4">
+					Manual do Desenvolvedor
+				</h1>
+
+				<nav className="w-full space-y-4">
+					{menuItems.map((item) => (
+						<Link
+							key={item.id}
+							href={`/${item.id}`}
+							className="group relative flex items-center justify-center py-3 px-4 rounded-lg overflow-hidden transition-all duration-300"
+						>
+							{/* O Fundo Animado */}
+							<span className="absolute inset-0 bg-white/15 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-center"></span>
+
+							{/* O Texto */}
+							<span className="relative z-10 text-xl font-medium group-hover:scale-105 transition-transform duration-300">
+								{item.label}
+							</span>
+						</Link>
+					))}
+				</nav>
+			</header>
+
+			{/* MAIN */}
+			<main className="flex-grow container mx-auto px-10 py-12">
+				<div className="bg-white p-10 rounded-2xl shadow-sm border border-ctd-azul-02/20">
+					<h2 className="text-3xl font-bold text-ctd-azul-01 mb-6">
+						Conteúdo Principal
+					</h2>
+					<p className="text-ctd-cinza leading-relaxed">
+						Selecione um item no menu lateral para visualizar as diretrizes e
+						ferramentas do projeto.
+					</p>
+				</div>
 			</main>
-			<footer className={styles.footer}>
-				<a
-					href="https://vercel.com/templates?search=turborepo&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<Image
-						aria-hidden
-						src="/window.svg"
-						alt="Window icon"
-						width={16}
-						height={16}
-					/>
-					Examples
-				</a>
-				<a
-					href="https://turborepo.dev?utm_source=create-turbo"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<Image
-						aria-hidden
-						src="/globe.svg"
-						alt="Globe icon"
-						width={16}
-						height={16}
-					/>
-					Go to turborepo.dev →
-				</a>
-			</footer>
 		</div>
 	)
 }
