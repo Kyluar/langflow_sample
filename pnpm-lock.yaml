@@ -56,6 +56,9 @@ importers:
       nestjs-prisma:
         specifier: ^0.27.0
         version: 0.27.0(@nestjs/common@11.1.12(reflect-metadata@0.2.2)(rxjs@7.8.2))(@prisma/client@7.2.0(prisma@7.2.0(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.2))(typescript@5.9.2))(chokidar@4.0.3)(prisma@7.2.0(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.2))
+      nestjs-zod:
+        specifier: ^5.1.1
+        version: 5.1.1(@nestjs/common@11.1.12(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)(zod@4.3.6)
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -3670,6 +3673,17 @@ packages:
       '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0
       '@prisma/client': ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
       prisma: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
+
+  nestjs-zod@5.1.1:
+    resolution: {integrity: sha512-pXa9Jrdip7iedKvGxJTvvCFVRCoIcNENPCsHjpCefPH3PcFejRgkZkUcr3TYITRyxnUk7Zy5OsLpirZGLYBfBQ==}
+    peerDependencies:
+      '@nestjs/common': ^10.0.0 || ^11.0.0
+      '@nestjs/swagger': ^7.4.2 || ^8.0.0 || ^11.0.0
+      rxjs: ^7.0.0
+      zod: ^3.25.0 || ^4.0.0
+    peerDependenciesMeta:
+      '@nestjs/swagger':
+        optional: true
 
   netmask@2.0.2:
     resolution: {integrity: sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==}
@@ -8698,6 +8712,13 @@ snapshots:
       prisma: 7.2.0(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.2)
     transitivePeerDependencies:
       - chokidar
+
+  nestjs-zod@5.1.1(@nestjs/common@11.1.12(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)(zod@4.3.6):
+    dependencies:
+      '@nestjs/common': 11.1.12(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      deepmerge: 4.3.1
+      rxjs: 7.8.2
+      zod: 4.3.6
 
   netmask@2.0.2: {}
 
