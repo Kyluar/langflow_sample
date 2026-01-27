@@ -3,19 +3,17 @@
   "version": "1.0.0",
   "description": "Shared schemas and types",
   "exports": {
-    "./*": "./src/*.ts"
+    ".": {"schemas": "./src/index.ts", "default": "./dist/index.js"}
   },
   "private": true,
-  "type": "module",
   "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
     "lint": "biome lint --write",
     "format": "biome format --write",
     "check-types": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@repo/database": "workspace:^",
     "@repo/typescript-config": "workspace:^",
