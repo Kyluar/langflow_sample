@@ -4,41 +4,45 @@ import {
 	Delete,
 	Get,
 	Param,
+	ParseUUIDPipe,
 	Patch,
 	Post
 } from '@nestjs/common'
-import type { CreateUserDto } from './dto/create-user.dto'
-import type { UpdateUserDto } from './dto/update-user.dto'
-
+import type { UserSchema } from '@repo/schemas'
+import type { CreateUserDto, UpdateUserDto } from 'src/lib/types/dto/user'
+import type { IUserController } from 'src/lib/types/interfaces/user.interface'
 // biome-ignore lint/style/useImportType: Required
 import { UsersService } from './users.service'
 
 @Controller('users')
-export class UsersController {
-	constructor(private readonly usersService: UsersService) {}
+export class UsersController implements IUserController {
+	constructor(private readonly service: UsersService) {}
 
-	@Post()
-	create(@Body() createUserDto: CreateUserDto) {
-		return this.usersService.create(createUserDto)
+	@Get(':id')
+	getUserById(@Param('id', ParseUUIDPipe) id: string): Promise<UserSchema> {
+		return this.service.getUserById(id)
 	}
 
 	@Get()
-	findAll() {
-		return this.usersService.findAll()
+	getUsers(): Promise<UserSchema[]> {
+		return this.service.getUsers()
 	}
 
-	@Get(':id')
-	findOne(@Param('id') id: string) {
-		return this.usersService.findOne(+id)
+	@Post()
+	createUser(@Body() userData: CreateUserDto): Promise<UserSchema> {
+		return this.service.createUser(userData)
 	}
 
 	@Patch(':id')
-	update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-		return this.usersService.update(+id, updateUserDto)
+	updateUser(
+		@Param('id', ParseUUIDPipe) id: string,
+		@Body() data: UpdateUserDto
+	): Promise<UserSchema> {
+		return this.service.updateUserById(id, data)
 	}
 
 	@Delete(':id')
-	remove(@Param('id') id: string) {
-		return this.usersService.remove(+id)
+	deleteUser(@Param('id', ParseUUIDPipe) id: string): Promise<UserSchema> {
+		return this.service.deleteUserById(id)
 	}
 }

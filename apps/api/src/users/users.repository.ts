@@ -1,22 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common'
-import type { Prisma } from '@repo/database/generated/prisma/client'
+import type { Prisma } from '@repo/database'
 import type { CustomPrismaClient } from 'src/lib/extensions/prisma.extension'
-
-type GetUsersParams = {
-	skip?: number
-	take?: number
-	cursor?: Prisma.UserWhereUniqueInput
-	where?: Prisma.UserWhereInput
-	orderBy?: Prisma.UserOrderByWithRelationInput
-}
-
-type UpdateUserParams = {
-	where: Prisma.UserWhereUniqueInput
-	data: Prisma.UserUpdateInput
-}
+import type {
+	GetUsersParams,
+	IUserRepository,
+	UpdateUserParams
+} from 'src/lib/types/interfaces/user.interface'
 
 @Injectable()
-export class UsersRepository {
+export class UsersRepository implements IUserRepository {
 	constructor(
 		@Inject('PrismaService')
 		private readonly prisma: CustomPrismaClient

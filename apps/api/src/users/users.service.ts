@@ -1,30 +1,31 @@
 import { Injectable } from '@nestjs/common'
-import type { CreateUserDto } from './dto/create-user.dto'
-import type { UpdateUserDto } from './dto/update-user.dto'
-// biome-ignore lint/style/useImportType: Ignore
+import type { UserSchema } from '@repo/schemas'
+import type { CreateUserDto, UpdateUserDto } from 'src/lib/types/dto/user'
+import type { IUserService } from 'src/lib/types/interfaces/user.interface'
+// biome-ignore lint/style/useImportType: Required
 import { UsersRepository } from './users.repository'
 
 @Injectable()
-export class UsersService {
+export class UsersService implements IUserService {
 	constructor(private repository: UsersRepository) {}
 
-	create(createUserDto: CreateUserDto) {
-		return 'This action adds a new user'
+	getUserById(id: string): Promise<UserSchema> {
+		return this.repository.user({ id })
 	}
 
-	findAll() {
-		return `This action returns all users`
+	getUsers(): Promise<UserSchema[]> {
+		return this.repository.users({})
 	}
 
-	findOne(id: number) {
-		return `This action returns a #${id} user`
+	createUser(data: CreateUserDto): Promise<UserSchema> {
+		return this.repository.createUser(data)
 	}
 
-	update(id: number, updateUserDto: UpdateUserDto) {
-		return `This action updates a #${id} user`
+	updateUserById(id: string, data: UpdateUserDto): Promise<UserSchema> {
+		return this.repository.updateUser({ where: { id }, data })
 	}
 
-	remove(id: number) {
-		return `This action removes a #${id} user`
+	deleteUserById(id: string): Promise<UserSchema> {
+		return this.repository.deleteUser({ id })
 	}
 }
