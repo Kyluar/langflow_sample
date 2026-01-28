@@ -1,21 +1,13 @@
 import path from 'node:path'
 import { config } from 'dotenv'
+import { generateDatabaseUrl } from './src/lib/utils'
 
 config({ path: path.resolve(import.meta.dirname, '../../.env') })
 
 import 'dotenv/config'
 import { defineConfig } from 'prisma/config'
 
-const {
-	POSTGRES_USER,
-	POSTGRES_PASSWORD,
-	POSTGRES_HOST,
-	POSTGRES_PORT,
-	POSTGRES_DB,
-	POSTGRES_DB_SCHEMA
-} = process.env
-
-const DATABASE_URL = `postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=${POSTGRES_DB_SCHEMA}`
+const DATABASE_URL = generateDatabaseUrl()
 
 export default defineConfig({
 	schema: 'prisma/schema.prisma',

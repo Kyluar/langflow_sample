@@ -4,7 +4,7 @@
   "description": "Shared db types",
   "private": true,
   "exports": {
-    "./*": "./src/*.ts"
+    ".": {"types": "./src/index.ts", "default": "./dist/index.js"}
   },
   "type": "module",
   "scripts": {

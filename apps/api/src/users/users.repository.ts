@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common'
-import type { Prisma } from '@repo/database/generated/prisma/client'
+import type { Prisma } from '@repo/database'
 import type { CustomPrismaClient } from 'src/lib/extensions/prisma.extension'
 
 type GetUsersParams = {
