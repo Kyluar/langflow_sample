@@ -1,7 +1,10 @@
-import type { Prisma } from '../src/generated/prisma/client'
-import { PrismaClientFactory } from '../src/lib/utils'
+import { PrismaPg } from '@prisma/adapter-pg'
+import { type Prisma, PrismaClient } from '../src/generated/prisma/client'
+import { generateDatabaseUrl } from '../src/lib/utils'
 
-const prisma = PrismaClientFactory()
+const connectionString = generateDatabaseUrl()
+const adapter = new PrismaPg({ connectionString })
+const prisma = new PrismaClient({ adapter })
 
 const seedUsers: Prisma.UserCreateInput[] = [
 	{
