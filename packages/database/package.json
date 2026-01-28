@@ -8,14 +8,16 @@
   },
   "type": "module",
   "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
     "lint": "biome lint --write",
     "format": "biome format --write",
     "check-types": "tsc --noEmit",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:migrate": "prisma migrate",
+    "db:generate": "prisma generate",
+    "db:seed": "prisma db seed"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@repo/typescript-config": "workspace:^",
     "@types/node": "^25.0.9",

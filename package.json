@@ -10,7 +10,10 @@
     "check": "turbo run check",
     "check-types": "turbo run check-types",
     "prepare": "husky",
-    "commit": "gitmoji -c"
+    "commit": "gitmoji -c",
+    "db:migrate": "turbo run db:migrate",
+    "db:generate": "turbo run db:generate",
+    "db:seed": "turbo run db:seed"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",
