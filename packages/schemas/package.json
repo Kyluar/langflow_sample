@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Shared schemas and types",
   "exports": {
-    ".": {"schemas": "./src/index.ts", "default": "./dist/index.js"}
+    ".": {"types": "./src/index.ts", "default": "./dist/index.js"}
   },
   "private": true,
   "scripts": {
