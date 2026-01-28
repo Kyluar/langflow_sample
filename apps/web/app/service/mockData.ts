@@ -7,7 +7,7 @@ export interface Documentation {
   updatedAt: string;
 }
 
-export const mockDocs: Documentation[] = [
+export let mockDocs: Documentation[] = [
   {
     id: 'overview',
     label: 'Visão Geral',

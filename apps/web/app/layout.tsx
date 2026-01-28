@@ -11,8 +11,12 @@ export default function RootLayout({
 	return (
 		<html lang="pt-br">
 			<body className="flex h-screen overflow-hidden font-sans bg-ctd-fundo">
-				<header className="bg-gradient-to-b from-ctd-azul-01 to-ctd-azul-02 py-16 px-6 text-center text-white shadow-md flex flex-col 
-								   items-center min-h-screen w-[340px] overflow-y-auto">
+				<header
+					className="bg-gradient-to-b from-ctd-azul-01 to-ctd-azul-02
+	           py-16 px-6 text-center text-white shadow-md
+	           flex flex-col items-center
+	           min-h-screen w-[340px] flex-shrink-0 overflow-y-auto"
+				>
 					<div className="mb-8 p-4 flex justify-center">
 						<div className="font-black text-2xl tracking-tighter">
 							<Logo color="white" />
@@ -41,9 +45,7 @@ export default function RootLayout({
 
 				{/* Main Content */}
 				<main className="flex-grow overflow-y-auto px-10 py-12 bg-white">
-					<div>
-						{children}
-					</div>
+					<div>{children}</div>
 				</main>
 			</body>
 		</html>
