@@ -1,16 +1,30 @@
-import { mockDocs } from '../../service/mockData'
 import { MarkDown } from '../../_components/MarkDown'
+import api from '../../config/axios'
+
+interface DocItem {
+	id: string
+	title: string
+	label: string
+	category: string
+	updatedAt: string
+	content: string
+}
 
 export default async function DocPage({
 	params
 }: {
-	params: Promise<{ id: string }>
+	params: Promise<{ id: string }> //se for id
 }) {
-	// Busca o documento correto no mock baseado no ID da URL
 	const { id } = await params
-	const doc = mockDocs.find((item) => item.id === id)
+	let docs: DocItem | null = null
+	try {
+		const response = await api.get<DocItem>(`/document/${id}`)
+		docs = response.data
+	} catch (error) {
+		console.log(error)
+	}
 
-	if (!doc) {
+	if (!docs) {
 		return <h2 className="text-2xl font-bold text-gray-400">Error 404.</h2>
 	}
 
@@ -19,17 +33,16 @@ export default async function DocPage({
 			{/* Header da Página */}
 			<div className="mb-8 border-b border-gray-100 pb-4">
 				<h2 className="text-4xl font-extrabold text-ctd-azul-01 mt-2 mb-3">
-					{doc.title}
+					{docs.title}
 				</h2>
 				<p className="text-xs text-gray-400">
-					Última atualização:{' '}
-					{new Date(doc.updatedAt).toLocaleDateString('pt-BR')}
+					Última atualização: {docs.updatedAt}
 				</p>
 			</div>
 
 			{/* Renderizador de Markdown */}
 			<div className="text-ctd-cinza leading-relaxed">
-				<MarkDown content={doc.content} docId={doc.id} />
+				<MarkDown content={docs.content} docId={docs.id} />
 			</div>
 		</article>
 	)

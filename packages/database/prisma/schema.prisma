@@ -19,3 +19,10 @@ model User {
   email String  @unique
   name  String
 }
+
+model Document {
+  id        String   @id @default(uuid())
+  title     String   @unique
+  content   String   @db.Text
+  updatedAt DateTime @updatedAt
+}

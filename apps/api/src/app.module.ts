@@ -7,6 +7,7 @@ import { config, validate } from './lib/config/env'
 import { HttpExceptionFilter } from './lib/filters/http.exception.filter'
 import { PrismaClientFactory } from './lib/utils/prisma.utils'
 import { UsersModule } from './users/users.module'
+import { DocumentModule } from './document/document.module'
 
 @Module({
 	imports: [
@@ -21,7 +22,8 @@ import { UsersModule } from './users/users.module'
 			useFactory: PrismaClientFactory,
 			inject: [ConfigService]
 		}),
-		UsersModule
+		UsersModule,
+		DocumentModule
 	],
 	providers: [
 		{
@@ -38,4 +40,4 @@ import { UsersModule } from './users/users.module'
 		}
 	]
 })
-export class AppModule {}
+export class AppModule { }
