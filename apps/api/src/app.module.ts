@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { CustomPrismaModule } from 'nestjs-prisma/dist/custom'
+import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod'
 import { config, validate } from './lib/config/env'
-import { prisma } from './lib/extensions/prisma.extension'
-import { UsersModule } from './users/users.module'
-import { APP_PIPE, APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core'
-import { ZodValidationPipe, ZodSerializerInterceptor } from 'nestjs-zod'
 import { HttpExceptionFilter } from './lib/filters/http.exception.filter'
+import { PrismaClientFactory } from './lib/utils/prisma.utils'
+import { UsersModule } from './users/users.module'
 
 @Module({
 	imports: [
@@ -18,9 +18,8 @@ import { HttpExceptionFilter } from './lib/filters/http.exception.filter'
 		CustomPrismaModule.forRootAsync({
 			name: 'PrismaService',
 			isGlobal: true,
-			useFactory: () => {
-				return prisma
-			}
+			useFactory: PrismaClientFactory,
+			inject: [ConfigService]
 		}),
 		UsersModule
 	],

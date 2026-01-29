@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 /* biome-ignore-all parse:qualquercoisa */
-@plugin "@tailwindcss/typography";
+@plugin '@tailwindcss/typography';
 @theme {
 	--color-ctd-azul-01: #005ca9;
 	--color-ctd-azul-02: #00b1eb;
