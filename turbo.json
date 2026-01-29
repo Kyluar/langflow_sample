@@ -20,17 +20,23 @@
       "cache": true
     },
     "dev": {
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     },
-    "db:migrate": {
-      "dependsOn": ["^db:migrate"]
+    "@repo/database#build": {
+      "dependsOn": ["db:generate"],
+      "outputs": ["dist/**"]
     },
-    "db:generate": {
-      "dependsOn": ["^db:generate"]
+    "@repo/database#db:migrate": {
+      "inputs": ["prisma/migrations/**" ]
     },
-    "db:seed": {
-      "dependsOn": ["^db:seed"]
+    "@repo/database#db:generate": {
+      "inputs": ["prisma/schema.prisma"],
+      "outputs": ["src/generated/**"]
+    },
+    "@repo/database#db:seed": {
+      "dependsOn": ["db:generate"]
     }
   }
 }
