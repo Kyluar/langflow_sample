@@ -1,6 +1,6 @@
 import { PrismaPg } from '@prisma/adapter-pg'
-import { generateDatabaseUrl } from '../src'
 import { type Prisma, PrismaClient } from '../src/generated/prisma/client'
+import { generateDatabaseUrl } from '../src/lib/utils'
 
 const connectionString = generateDatabaseUrl()
 const adapter = new PrismaPg({ connectionString })

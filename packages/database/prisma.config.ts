@@ -1,11 +1,12 @@
-import path from 'node:path'
 import { config } from 'dotenv'
+import path from 'node:path'
 import { generateDatabaseUrl } from './src/lib/utils'
 
-config({ path: path.resolve(import.meta.dirname, '../../.env') })
+config({ path: path.resolve(import.meta.dirname, '../../.env.database') })
 
 import 'dotenv/config'
 import { defineConfig } from 'prisma/config'
+
 const DATABASE_URL = generateDatabaseUrl()
 
 export default defineConfig({
