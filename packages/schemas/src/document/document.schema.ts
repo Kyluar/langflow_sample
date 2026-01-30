@@ -11,7 +11,8 @@ export const updateDocumentSchema = createDocumentSchema.partial()
 export const documentSchema = z.strictObject({
     id: z.uuid(),
     ...createDocumentSchema.shape,
-    updatedAt: z.coerce.date()
+    updatedAt: z.coerce.date(),
+    createdAt: z.coerce.date()
 }) satisfies z.ZodType<Prisma.DocumentModel>
 
 export type DocumentSchema = z.infer<typeof documentSchema>

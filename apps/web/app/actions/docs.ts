@@ -11,7 +11,7 @@ export async function updateDocAction(id: string, newContent: string) {
 
         // Limpa o cache do Next.js para refletir a mudança instantaneamente
         revalidatePath(`/docs/${id}`);
-        revalidatePath('/'); // Se o menu lateral depender dessa info, limpa o layout também
+        revalidatePath('/', 'layout');
 
         return { success: true };
     } catch (error) {

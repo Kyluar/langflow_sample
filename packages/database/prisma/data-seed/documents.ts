@@ -1,11 +1,9 @@
- import { Prisma } from '../../src'
- 
+import type { Prisma } from '../../src'
+
 export const seedDocuments: Prisma.DocumentCreateInput[] = [
   {
     title: 'Guia do Desenvolvedor (CTD)',
-    content: `# Guia do Desenvolvedor (CTD)
- 
-Este guia existe para padronizar o ambiente e deixar o onboarding previsível.
+    content: `Este guia existe para padronizar o ambiente e deixar o onboarding previsível.
  
 ## O que você vai encontrar aqui
  
@@ -32,9 +30,7 @@ Se algo falhar, volte no guia “Ambiente Local e Monorepo”.`,
   },
   {
     title: 'Ambiente Local e Monorepo (Node + PNPM + Turbo)',
-    content: `# Ambiente Local e Monorepo (Node + PNPM + Turbo)
- 
-## Pré-requisitos
+    content: `## Pré-requisitos
  
 - Node.js (recomendado >= 18)
 - PNPM (o repo declara \`pnpm@9\`)
@@ -99,9 +95,7 @@ pnpm --filter <nome-do-pacote> dev
   },
   {
     title: 'Git, Pull Requests e Commits',
-    content: `# Git, Pull Requests e Commits
- 
-## Git (controle de versão)
+    content: `## Git (controle de versão)
  
 Git resolve:
  
@@ -145,9 +139,7 @@ Dica: mantenha mensagens curtas e descritivas, e evite “update”, “fix stuf
   },
   {
     title: 'Qualidade e Padrões de Código (Biome + TypeScript)',
-    content: `# Qualidade e Padrões de Código (Biome + TypeScript)
- 
-## Objetivo
+    content: `## Objetivo
  
 Qualidade aqui significa:
  
@@ -198,9 +190,7 @@ Docs:
   },
   {
     title: 'Infraestrutura e Dados (Docker + PostgreSQL + Prisma)',
-    content: `# Infraestrutura e Dados (Docker + PostgreSQL + Prisma)
- 
-## Docker (padronização de ambiente)
+    content: `## Docker (padronização de ambiente)
  
 Docker ajuda a evitar:
  
@@ -256,9 +246,7 @@ Link:
   },
   {
     title: 'Front-end (Web + Mobile)',
-    content: `# Front-end (Web + Mobile)
- 
-## Web (Next.js)
+    content: `## Web (Next.js)
  
 Next.js é o framework React para web, com foco em:
  
@@ -301,9 +289,7 @@ Docs:
   },
   {
     title: 'Back-end e APIs (Nest + Swagger)',
-    content: `# Back-end e APIs (Nest + Swagger)
- 
-## Nest.js (arquitetura)
+    content: `## Nest.js (arquitetura)
  
 Nest é modular por padrão.
  

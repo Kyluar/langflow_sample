@@ -24,5 +24,6 @@ model Document {
   id        String   @id @default(uuid())
   title     String   @unique
   content   String   @db.Text
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

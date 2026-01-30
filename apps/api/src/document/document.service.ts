@@ -7,7 +7,7 @@ export class DocumentService implements IDocumentService {
     constructor(private repository: DocumentRepository) { }
 
     getDocuments() {
-        return this.repository.documents({})
+        return this.repository.documents({ orderBy: { createdAt: 'asc' } })
     }
 
     getDocumentById(id: string) {

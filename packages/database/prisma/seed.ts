@@ -1,50 +1,35 @@
 import { PrismaPg } from '@prisma/adapter-pg'
 import { type Prisma, PrismaClient } from '../src/generated/prisma/client'
 import { generateDatabaseUrl } from '../src/lib/utils'
-import { seedDocuments } from './data-seed/documents'
 import { seedUsers } from './data-seed/users'
+import { seedDocuments } from './data-seed/documents'
 
 const connectionString = generateDatabaseUrl()
 const adapter = new PrismaPg({ connectionString })
 const prisma = new PrismaClient({ adapter })
 
-
 async function main() {
-    console.info('Seeding users...');
-    for (const u of seedUsers) {
-        await prisma.user.upsert({ 
-            where: { email: u.email }, 
-            update: {}, 
-            create: u 
-        });
-    }
-    console.info('Users seeded successfully!');
-    console.info('Seeding documents...');
-for (let i = 0; i < seedDocuments.length; i++) {
-        const d = seedDocuments[i];
-        
-        const result = await prisma.document.upsert({
-            where: { title: d.title },
-            update: {
-                content: d.content
-            },
-            create: {
-                title: d.title,
-                content: d.content
-            }
-        });
+    const transactionsUsers = seedUsers.map((u) =>
+        prisma.user.upsert({ where: { email: u.email }, update: {}, create: u })
+    )
 
-        console.info(`[${i + 1}/${seedDocuments.length}] Inserido: ${result.title}`);
-    }
+    const transictionsDocuments = seedDocuments.map((d) =>
+        prisma.document.upsert({ where: { title: d.title }, update: {}, create: d })
+    )
 
-    console.info('Documents seeded successfully!');
+    const users = await prisma.$transaction(transactionsUsers)
+    const documents = await prisma.$transaction(transictionsDocuments)
+
+    console.info(users)
+    console.info(documents)
+    console.info('Database seeded successfully!')
 }
 
 main()
-	.catch((e) => {
-		console.error(e)
-		process.exit(1)
-	})
-	.finally(async () => {
-		await prisma.$disconnect()
-	})
+    .catch((e) => {
+        console.error(e)
+        process.exit(1)
+    })
+    .finally(async () => {
+        await prisma.$disconnect()
+    })

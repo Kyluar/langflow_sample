@@ -11,6 +11,7 @@ import {
 // biome-ignore lint/style/useImportType: Required
 import { DocumentService } from './document.service'
 import type { DocumentSchema } from '@repo/schemas'
+import type { CreateDocumentDto, UpdateDocumentDto } from 'src/lib/types/dto/document'
 
 @Controller('document')
 export class DocumentController {
@@ -27,14 +28,14 @@ export class DocumentController {
     }
 
     @Post()
-    createDocument(@Body() userData: DocumentSchema): Promise<DocumentSchema> {
-        return this.service.createDocument(userData)
+    createDocument(@Body() documentData: CreateDocumentDto): Promise<DocumentSchema> {
+        return this.service.createDocument(documentData)
     }
 
     @Patch(':id')
     updateDocument(
         @Param('id', ParseUUIDPipe) id: string,
-        @Body() data: DocumentSchema
+        @Body() data: UpdateDocumentDto
     ): Promise<DocumentSchema> {
         return this.service.updateDocumentById(id, data)
     }

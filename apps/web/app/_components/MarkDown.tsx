@@ -28,7 +28,11 @@ export function MarkDown({
 				{/* Renderizador de Markdown */}
 				<div className="text-ctd-cinza leading-relaxed">
 					{isEditing ? (
-						<MarkDownEditor initialContent={content} docId={docId} />
+						<MarkDownEditor
+							initialContent={content}
+							docId={docId}
+							onSaveSuccess={() => setIsEditing(false)}
+						/>
 					) : (
 						<ReactMarkdown>{content}</ReactMarkdown>
 					)}

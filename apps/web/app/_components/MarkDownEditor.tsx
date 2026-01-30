@@ -4,10 +4,12 @@ import { updateDocAction } from '../actions/docs'
 
 export function MarkDownEditor({
 	initialContent,
-	docId
+	docId,
+	onSaveSuccess
 }: {
 	initialContent: string
 	docId: string
+	onSaveSuccess: () => void
 }) {
 	const [content, setContent] = useState(initialContent)
 	const [loading, setLoading] = useState(false)
@@ -16,6 +18,7 @@ export function MarkDownEditor({
 		try {
 			setLoading(true)
 			await updateDocAction(docId, content)
+			onSaveSuccess()
 		} catch (error: unknown) {
 			console.error(error)
 		} finally {

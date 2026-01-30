@@ -1,14 +1,6 @@
 import { MarkDown } from '../../_components/MarkDown'
 import api from '../../config/axios'
-
-interface DocItem {
-	id: string
-	title: string
-	label: string
-	category: string
-	updatedAt: string
-	content: string
-}
+import { type DocumentSchema } from '@repo/schemas'
 
 export default async function DocPage({
 	params
@@ -16,9 +8,9 @@ export default async function DocPage({
 	params: Promise<{ id: string }> //se for id
 }) {
 	const { id } = await params
-	let docs: DocItem | null = null
+	let docs: DocumentSchema | null = null
 	try {
-		const response = await api.get<DocItem>(`/document/${id}`)
+		const response = await api.get<DocumentSchema>(`/document/${id}`)
 		docs = response.data
 	} catch (error) {
 		console.log(error)
@@ -36,7 +28,14 @@ export default async function DocPage({
 					{docs.title}
 				</h2>
 				<p className="text-xs text-gray-400">
-					Última atualização: {docs.updatedAt}
+					Última atualização:{' '}
+					{new Intl.DateTimeFormat('pt-BR', {
+						day: '2-digit',
+						month: '2-digit',
+						year: 'numeric',
+						hour: '2-digit',
+						minute: '2-digit'
+					}).format(new Date(docs.updatedAt))}
 				</p>
 			</div>
 

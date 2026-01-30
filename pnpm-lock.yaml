@@ -114,6 +114,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@repo/schemas':
+        specifier: workspace:^
+        version: link:../../packages/schemas
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui

@@ -2,27 +2,20 @@ import { Logo } from '@repo/ui/logo'
 import './globals.css'
 import api from './config/axios'
 import Link from 'next/link'
+import { type DocumentSchema } from '@repo/schemas'
 
-// Tipagem baseada no seu JSON
-interface DocItem {
-	id: string
-	title: string
-	label: string
-	category: string
-	updatedAt: string
-	content: string
-}
+export const dynamic = 'force-dynamic'
 
 export default async function RootLayout({
 	children
 }: {
 	children: React.ReactNode
 }) {
-	let docs: DocItem[] = []
+	let docs: DocumentSchema[] = []
 	try {
-		const response = await api.get<DocItem[]>('/document')
+		const response = await api.get<DocumentSchema[]>('/document')
 		docs = response.data
-		console.log("docs", docs)
+		console.log('docs', docs)
 	} catch (error) {
 		console.log(error)
 	}
@@ -46,18 +39,6 @@ export default async function RootLayout({
 
 					{/* Navigation */}
 					<nav className="w-full space-y-2.5">
-						{/* {mockDocs.map((item) => (
-							<Link
-								key={item.id}
-								href={`/docs/${item.id}`}
-								className="group relative flex items-center justify-center py-3 px-4 rounded-lg overflow-hidden transition-all duration-300"
-							>
-								<span className="absolute inset-0 bg-white/15 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-center"></span>
-								<span className="relative z-10 text-lg font-medium group-hover:scale-105 transition-transform duration-300">
-									{item.label}
-								</span>
-							</Link>
-						))} */}
 						{docs.map((item) => (
 							<Link
 								key={item.id}
