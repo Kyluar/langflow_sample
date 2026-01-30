@@ -14,7 +14,7 @@ export class ZodValidationExceptionFilter implements ExceptionFilter {
 
 		response.status(status).json({
 			statusCode: status,
-			message: 'Validation failed',
+			message: 'Validação falhou',
 			errors: z.flattenError(error)
 		})
 	}
