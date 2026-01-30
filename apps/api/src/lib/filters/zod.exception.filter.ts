@@ -1,0 +1,21 @@
+// biome-ignore-all lint/style/useImportType: Required
+
+import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common'
+import { ZodError, z } from '@repo/schemas'
+import { ZodValidationException } from 'nestjs-zod'
+
+@Catch(ZodValidationException)
+export class ZodValidationExceptionFilter implements ExceptionFilter {
+	catch(exception: ZodValidationException, host: ArgumentsHost) {
+		const ctx = host.switchToHttp()
+		const response = ctx.getResponse()
+		const status = exception.getStatus()
+		const error: ZodError = exception.getZodError() as ZodError
+
+		response.status(status).json({
+			statusCode: status,
+			message: 'Validation failed',
+			errors: z.flattenError(error)
+		})
+	}
+}
