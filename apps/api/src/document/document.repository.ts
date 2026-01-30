@@ -15,10 +15,10 @@ export class DocumentRepository implements IDocumentRepository {
     ) { }
 
     document(
-        documentWhereUniqueInput: Prisma.DocumentWhereUniqueInput
+        where: Prisma.DocumentWhereUniqueInput
     ): Promise<Prisma.DocumentModel> {
         return this.prisma.client.document.findUniqueOrThrow({
-            where: documentWhereUniqueInput
+            where
         })
     }
 

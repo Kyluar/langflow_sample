@@ -22,6 +22,7 @@ export default async function RootLayout({
 	try {
 		const response = await api.get<DocItem[]>('/document')
 		docs = response.data
+		console.log("docs", docs)
 	} catch (error) {
 		console.log(error)
 	}
