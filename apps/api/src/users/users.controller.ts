@@ -1,3 +1,4 @@
+// biome-ignore-all lint/style/useImportType: required
 import {
 	Body,
 	Controller,
@@ -8,10 +9,9 @@ import {
 	Patch,
 	Post
 } from '@nestjs/common'
-import type { UserSchema } from '@repo/schemas'
-import type { CreateUserDto, UpdateUserDto } from 'src/lib/types/dto/user'
-import type { IUserController } from 'src/lib/types/interfaces/user.interface'
-// biome-ignore lint/style/useImportType: Required
+import { UserSchema } from '@repo/schemas'
+import { CreateUserDto, UpdateUserDto } from 'src/lib/types/dto/user'
+import { IUserController } from 'src/lib/types/interfaces/user.interface'
 import { UsersService } from './users.service'
 
 @Controller('users')
