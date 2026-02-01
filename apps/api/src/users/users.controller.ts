@@ -9,7 +9,7 @@ import {
 	Post
 } from '@nestjs/common'
 import { UserSchema } from '@repo/schemas'
-import { CreateUserDto, UpdateUserDto } from 'src/lib/types/dto/user'
+import { CreateUserDto, UpdateUserDto } from 'src/lib/types/dto/user.dto'
 import { IUserController } from 'src/lib/types/interfaces/user.interface'
 import { UsersService } from './users.service'
 

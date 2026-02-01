@@ -12,7 +12,7 @@ import { DocumentSchema } from '@repo/schemas'
 import {
 	CreateDocumentDto,
 	UpdateDocumentDto
-} from 'src/lib/types/dto/document'
+} from 'src/lib/types/dto/document.dto'
 import { DocumentService } from './document.service'
 
 @Controller('document')

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import type { UserSchema } from '@repo/schemas'
-import type { CreateUserDto, UpdateUserDto } from 'src/lib/types/dto/user'
+import type { CreateUserDto, UpdateUserDto } from 'src/lib/types/dto/user.dto'
 import type { IUserService } from 'src/lib/types/interfaces/user.interface'
 import { UsersRepository } from './users.repository'
 

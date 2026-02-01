@@ -1,6 +1,6 @@
 import type { Prisma } from '@repo/database'
 import type { UserSchema } from '@repo/schemas'
-import type { CreateUserDto, UpdateUserDto } from '../dto/user'
+import type { CreateUserDto, UpdateUserDto } from '../dto/user.dto'
 
 export type GetUsersParams = {
 	skip?: number
