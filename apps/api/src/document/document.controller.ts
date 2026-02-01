@@ -9,6 +9,7 @@ import {
 	Post
 } from '@nestjs/common'
 import { DocumentSchema } from '@repo/schemas'
+import { ZodResponse } from 'nestjs-zod'
 import {
 	CreateDocumentDto,
 	UpdateDocumentDto
@@ -32,6 +33,7 @@ export class DocumentController {
 	}
 
 	@Post()
+	@ZodResponse({ type: CreateDocumentDto })
 	createDocument(
 		@Body() documentData: CreateDocumentDto
 	): Promise<DocumentSchema> {
@@ -39,6 +41,7 @@ export class DocumentController {
 	}
 
 	@Patch(':id')
+	@ZodResponse({ type: UpdateDocumentDto })
 	updateDocument(
 		@Param('id', ParseUUIDPipe) id: string,
 		@Body() data: UpdateDocumentDto
