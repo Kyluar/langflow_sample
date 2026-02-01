@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useImportType: Required
 import { ArgumentsHost, Catch } from '@nestjs/common'
 import { BaseExceptionFilter } from '@nestjs/core'
 import { generatePrismaExceptionResponse, Prisma } from '@repo/database'

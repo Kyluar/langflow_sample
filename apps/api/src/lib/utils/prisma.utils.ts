@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useImportType: Required
 import { ConfigService } from '@nestjs/config'
 import { PrismaClient, PrismaPg } from '@repo/database'
 

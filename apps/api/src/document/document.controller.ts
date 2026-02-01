@@ -1,4 +1,3 @@
-// biome-ignore-all lint/style/useImportType: Required
 import {
 	Body,
 	Controller,

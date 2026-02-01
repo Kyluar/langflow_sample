@@ -1,5 +1,3 @@
-// biome-ignore-all lint/style/useImportType: Required
-
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common'
 import { ZodError, z } from '@repo/schemas'
 import { ZodValidationException } from 'nestjs-zod'

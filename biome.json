@@ -25,9 +25,6 @@
 		"enabled": true
 	},
 	"javascript": {
-		"parser": {
-			"unsafeParameterDecoratorsEnabled": true
-		},
 		"formatter": {
 			"quoteStyle": "single",
 			"trailingCommas": "none",
@@ -45,12 +42,6 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"style": {
-				"useImportType": {
-					"level": "info",
-					"fix": "unsafe"
-				}
-			},
 			"recommended": true
 		},
 		"domains": {

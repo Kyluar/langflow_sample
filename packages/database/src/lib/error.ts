@@ -1,5 +1,4 @@
-// biome-ignore lint/style/useImportType: Required
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client'
+import type { PrismaClientKnownRequestError } from '@prisma/client/runtime/client'
 
 export function generatePrismaExceptionResponse(
 	exception: PrismaClientKnownRequestError
