@@ -1,5 +1,4 @@
 // biome-ignore-all lint/correctness/useHookAtTopLevel: Conflict
-
 import { join } from 'node:path'
 import { ConfigService } from '@nestjs/config'
 import { HttpAdapterHost, NestFactory } from '@nestjs/core'
