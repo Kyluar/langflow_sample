@@ -2,6 +2,7 @@
 import { ConfigService } from '@nestjs/config'
 import { HttpAdapterHost, NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+import { cleanupOpenApiDoc } from 'nestjs-zod'
 import { AppModule } from './app.module'
 import { PrismaClientExceptionFilter } from './lib/filters/prisma.exception.filter'
 import { ZodValidationExceptionFilter } from './lib/filters/zod.exception.filter'
@@ -16,9 +17,9 @@ async function bootstrap() {
 		.setDescription('Documentação da API da aplicação CTD Resource')
 		.setVersion('1.0')
 		.build()
+	const openApiDoc = SwaggerModule.createDocument(app, config)
 
-	const documentFactory = () => SwaggerModule.createDocument(app, config)
-	SwaggerModule.setup('api', app, documentFactory, {
+	SwaggerModule.setup('api', app, cleanupOpenApiDoc(openApiDoc), {
 		jsonDocumentUrl: 'api/json'
 	})
 
