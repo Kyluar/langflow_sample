@@ -6,10 +6,8 @@ export async function updateDocAction(id: string, newContent: string) {
     try {
         await api.patch(`/document/${id}`, {
             content: newContent,
-            updatedAt: new Date().toISOString()
         });
 
-        // Limpa o cache do Next.js para refletir a mudança instantaneamente
         revalidatePath(`/docs/${id}`);
         revalidatePath('/', 'layout');
 

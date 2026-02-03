@@ -3,6 +3,7 @@ import './globals.css'
 import api from './config/axios'
 import Link from 'next/link'
 import { type DocumentSchema } from '@repo/schemas'
+import { CreateDocButton } from './_components/CreateDocButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -15,10 +16,10 @@ export default async function RootLayout({
 	try {
 		const response = await api.get<DocumentSchema[]>('/document')
 		docs = response.data
-		console.log('docs', docs)
 	} catch (error) {
 		console.log(error)
 	}
+
 	return (
 		<html lang="pt-BR">
 			<body className="flex h-screen overflow-hidden font-sans bg-ctd-fundo">
@@ -52,6 +53,7 @@ export default async function RootLayout({
 							</Link>
 						))}
 					</nav>
+					<CreateDocButton />
 				</header>
 
 				{/* Main Content */}

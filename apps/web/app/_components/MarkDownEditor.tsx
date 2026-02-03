@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { updateDocAction } from '../actions/docs'
+import { updateDocAction } from '../actions/updateDocAction'
 
 export function MarkDownEditor({
 	initialContent,
@@ -18,11 +18,11 @@ export function MarkDownEditor({
 		try {
 			setLoading(true)
 			await updateDocAction(docId, content)
-			onSaveSuccess()
 		} catch (error: unknown) {
 			console.error(error)
 		} finally {
 			setLoading(false)
+			onSaveSuccess()
 		}
 	}
 
