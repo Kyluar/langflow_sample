@@ -6,16 +6,17 @@ import { Button } from '@repo/ui/button'
 
 export function MarkDown({
 	content,
+	title,
 	docId
 }: {
 	content: string
+	title: string
 	docId: string
 }) {
 	const [isEditing, setIsEditing] = useState(false)
 	return (
 		<>
 			<Button
-				appName="Web"
 				onClick={() => setIsEditing(!isEditing)}
 				className={`fixed bottom-8 right-8 z-50 inline-flex items-center gap-2 rounded-full px-7 py-3 
 				text-sm font-semibold  text-white shadow-lg transition-all duration-200 active:scale-95
@@ -31,6 +32,7 @@ export function MarkDown({
 						<MarkDownEditor
 							initialContent={content}
 							docId={docId}
+							title={title}
 							onSaveSuccess={() => setIsEditing(false)}
 						/>
 					) : (

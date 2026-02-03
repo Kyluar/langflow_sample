@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@repo/ui/button'
 import { createDocAction } from '../actions/createDocAction'
-import { type CreateDocumentSchema } from '@repo/schemas'
+import type { CreateDocumentSchema } from '@repo/schemas'
 
 export function CreateDocButton() {
 	const [isOpen, setIsOpen] = useState(false)
@@ -36,7 +36,6 @@ export function CreateDocButton() {
 		<>
 			<Button
 				onClick={() => setIsOpen(true)}
-				appName="Web"
 				className="mt-6 w-full py-2.5 px-4 border-2 border-white/30 rounded-lg hover:bg-white/10 transition-all font-bold text-sm"
 			>
 				+ Novo Documento

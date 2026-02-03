@@ -26,6 +26,13 @@ export class DocumentController {
 		return this.service.getDocumentById(id)
 	}
 
+	@Get('/title/:title')
+	getDocumentByTitle(
+		@Param('title') title: string
+	): Promise<DocumentSchema> {
+		return this.service.getDocumentByTitle(title)
+	}
+
 	@Get()
 	getDocuments(): Promise<DocumentSchema[]> {
 		return this.service.getDocuments()

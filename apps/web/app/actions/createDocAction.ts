@@ -20,7 +20,7 @@ export async function createDocAction(data: CreateDocumentSchema) {
         console.error("Erro na criação:", error);
         return {
             success: false,
-            error: "Falha ao registrar documento no banco."
+            error: error || "Falha ao criar documento." 
         };
     }
 }

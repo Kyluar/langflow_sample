@@ -4,10 +4,12 @@ import { updateDocAction } from '../actions/updateDocAction'
 
 export function MarkDownEditor({
 	initialContent,
+	title,
 	docId,
 	onSaveSuccess
 }: {
 	initialContent: string
+	title: string
 	docId: string
 	onSaveSuccess: () => void
 }) {
@@ -17,7 +19,7 @@ export function MarkDownEditor({
 	async function salvar() {
 		try {
 			setLoading(true)
-			await updateDocAction(docId, content)
+			await updateDocAction(docId, title, content)
 		} catch (error: unknown) {
 			console.error(error)
 		} finally {
