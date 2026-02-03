@@ -2,7 +2,9 @@ import { config } from 'dotenv'
 import path from 'node:path'
 import { generateDatabaseUrl } from './src/lib/utils'
 
-config({ path: path.resolve(import.meta.dirname, '../../.env.database') })
+if (!process.env.POSTGRES_HOST) {
+	config({ path: path.resolve(import.meta.dirname, '../../.env.database') })
+}
 
 import 'dotenv/config'
 import { defineConfig } from 'prisma/config'
