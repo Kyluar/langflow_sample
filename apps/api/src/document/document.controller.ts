@@ -9,10 +9,8 @@ import {
 	Post
 } from '@nestjs/common'
 import { DocumentSchema } from '@repo/schemas'
-import { ZodResponse } from 'nestjs-zod'
 import {
 	CreateDocumentDto,
-	DocumentDto,
 	UpdateDocumentDto
 } from 'src/lib/types/dto/document.dto'
 import { DocumentService } from './document.service'
@@ -34,7 +32,7 @@ export class DocumentController {
 	}
 
 	@Post()
-	@ZodResponse({ type: DocumentDto })
+	// @ZodResponse({ type: DocumentDto }): Causes error with zod v4
 	createDocument(
 		@Body() documentData: CreateDocumentDto
 	): Promise<DocumentSchema> {
@@ -42,7 +40,7 @@ export class DocumentController {
 	}
 
 	@Patch(':id')
-	@ZodResponse({ type: DocumentDto })
+	// @ZodResponse({ type: DocumentDto }): Causes error with zod v4
 	updateDocument(
 		@Param('id', ParseUUIDPipe) id: string,
 		@Body() data: UpdateDocumentDto
