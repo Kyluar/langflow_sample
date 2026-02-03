@@ -10,7 +10,11 @@ import {
 } from '@nestjs/common'
 import { UserSchema } from '@repo/schemas'
 import { ZodResponse } from 'nestjs-zod'
-import { CreateUserDto, UpdateUserDto } from 'src/lib/types/dto/user.dto'
+import {
+	CreateUserDto,
+	UpdateUserDto,
+	UserDto
+} from 'src/lib/types/dto/user.dto'
 import { IUserController } from 'src/lib/types/interfaces/user.interface'
 import { UsersService } from './users.service'
 
@@ -29,13 +33,13 @@ export class UsersController implements IUserController {
 	}
 
 	@Post()
-	@ZodResponse({ type: CreateUserDto })
+	@ZodResponse({ type: UserDto })
 	createUser(@Body() userData: CreateUserDto): Promise<UserSchema> {
 		return this.service.createUser(userData)
 	}
 
 	@Patch(':id')
-	@ZodResponse({ type: UpdateUserDto })
+	@ZodResponse({ type: UserDto })
 	updateUser(
 		@Param('id', ParseUUIDPipe) id: string,
 		@Body() data: UpdateUserDto
