@@ -11,8 +11,11 @@ import {
 } from '@nestjs/swagger'
 import { cleanupOpenApiDoc } from 'nestjs-zod'
 import { AppModule } from './app.module'
-import { PrismaClientExceptionFilter } from './lib/filters/prisma.exception.filter'
-import { ZodValidationExceptionFilter } from './lib/filters/zod.exception.filter'
+import {
+	PrismaClientExceptionFilter,
+	ZodSerializationExceptionFilter,
+	ZodValidationExceptionFilter
+} from './lib/filters'
 
 async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule)
@@ -52,6 +55,7 @@ async function bootstrap() {
 	SwaggerModule.setup('api', app, cleanupOpenApiDoc(openApiDoc), customOptions)
 
 	app.useGlobalFilters(new ZodValidationExceptionFilter())
+	app.useGlobalFilters(new ZodSerializationExceptionFilter())
 	app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter))
 
 	await app.listen(PORT)
