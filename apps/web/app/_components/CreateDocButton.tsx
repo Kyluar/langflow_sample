@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@repo/ui/button'
 import { createDocAction } from '../actions/createDocAction'
 import type { CreateDocumentSchema } from '@repo/schemas'
+import toast from 'react-hot-toast'
 
 export function CreateDocButton() {
 	const [isOpen, setIsOpen] = useState(false)
@@ -16,21 +17,32 @@ export function CreateDocButton() {
 
 	const router = useRouter()
 
-	async function handleCreate() {
-		if (!formData.title.trim()) {
-			alert('Por favor, insira pelo menos o título.')
-			return
-		}
+async function handleCreate() {
+    if (!formData.title.trim()) {
+        toast.error('O título é obrigatório!', {
+            icon: '⚠️',
+        });
+        return;
+    }
 
-		setLoading(true)
-		const result = await createDocAction(formData)
-		console.log('Resultado:', result)
-
-		setLoading(false)
-		setIsOpen(false)
-		setFormData({ title: '', content: '' })
-		router.push(`/docs/${result.id}`)
-	}
+    setLoading(true);
+    
+    try {
+        const actionPromise = createDocAction(formData);
+        const result = await toast.promise(actionPromise, {
+            loading: 'Criando documento...',
+            success: (data) => { return data.message || 'Criado com sucesso!' },
+            error: (err) => err.message || 'Erro ao criar documento.',
+        });
+		router.push(`/docs/${result.title}`);
+    } catch (err: unknown) {
+        console.error("Erro capturado:", err);
+    } finally {
+        setLoading(false);
+		setIsOpen(false);
+        setFormData({ title: '', content: '' });
+    }
+}
 
 	return (
 		<>

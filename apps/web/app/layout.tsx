@@ -4,7 +4,7 @@ import api from './config/axios'
 import Link from 'next/link'
 import type { DocumentSchema } from '@repo/schemas'
 import { CreateDocButton } from './_components/CreateDocButton'
-
+import { ToasterContext } from './_components/ToasterProvider'
 export const dynamic = 'force-dynamic'
 
 export default async function RootLayout({
@@ -23,6 +23,7 @@ export default async function RootLayout({
 	return (
 		<html lang="pt-BR">
 			<body className="flex h-screen overflow-hidden font-sans bg-ctd-fundo">
+				<ToasterContext />
 				<header
 					className="bg-gradient-to-b from-ctd-azul-01 to-ctd-azul-02
 	           py-16 px-6 text-center text-white shadow-md

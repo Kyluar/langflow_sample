@@ -15,12 +15,9 @@ export async function createDocAction(data: CreateDocumentSchema) {
         console.log("Documento criado com sucesso:", res.data);
 
         revalidatePath('/', 'layout');
-        return { success: true, id: res.data.id };
-    } catch (error) {
-        console.error("Erro na criação:", error);
-        return {
-            success: false,
-            error: error || "Falha ao criar documento." 
-        };
+        return { success: true, message:'Documento criado com sucesso!' ,title: res.data.title };
+    } catch (error: any) {
+        const message = error.response?.data?.message || error.message || "Falha ao criar documento.";
+        return { success: false, message };
     }
 }

@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { updateDocAction } from '../actions/updateDocAction'
+import toast from 'react-hot-toast'
 
 export function MarkDownEditor({
 	initialContent,
@@ -17,9 +18,19 @@ export function MarkDownEditor({
 	const [loading, setLoading] = useState(false)
 
 	async function salvar() {
+		const result = updateDocAction(docId, title, content)
 		try {
 			setLoading(true)
-			await updateDocAction(docId, title, content)
+			await toast.promise(result, {
+                loading: 'Salvando alterações...',
+                success: () => {
+                    return <b>Alterações salvas com sucesso!</b>
+                },
+                error: (err) => {
+                    console.error(err)
+                    return <b>Erro ao salvar documento.</b>
+                }
+            })
 		} catch (error: unknown) {
 			console.error(error)
 		} finally {
