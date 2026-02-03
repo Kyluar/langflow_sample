@@ -39,7 +39,7 @@
       "outputs": ["src/generated/**"]
     },
     "@repo/database#db:seed": {
-      "dependsOn": ["db:migrate", "db:generate"]
+      "cache": false
     }
   }
 }

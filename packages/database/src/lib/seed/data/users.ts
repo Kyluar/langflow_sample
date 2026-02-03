@@ -1,4 +1,4 @@
-import type { Prisma } from '@repo/database'
+import type { Prisma } from '../../../generated/prisma/client.js'
 
 export const seedUsers: Prisma.UserCreateInput[] = [
 	{
