@@ -1,9 +1,9 @@
 // actions/updateDocAction.ts
 'use server'
 
+import { type DocumentSchema, updateDocumentSchema } from "@repo/schemas";
 import { revalidatePath } from "next/cache";
 import api from "../config/axios";
-import { type DocumentSchema, updateDocumentSchema } from "@repo/schemas";
 export async function updateDocAction(id: string, title: string, content: string) {
     try {
         const validatedData = updateDocumentSchema.parse({ content });
@@ -12,11 +12,8 @@ export async function updateDocAction(id: string, title: string, content: string
         revalidatePath('/', 'layout');
 
         return { success: true, message: "Documento atualizado com sucesso!" };
-    } catch (error: any) {
-        console.error("Erro na atualização:", error);
-        return {
-            success: false,
-            message: error || "Falha ao atualizar documento."
-        };
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : "Erro ao atualizar documento.";
+        return { success: false, message };
     }
 }

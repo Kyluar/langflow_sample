@@ -1,6 +1,6 @@
-import { MarkDown } from '../../_components/MarkDown'
-import api from '../../config/axios'
-import type { DocumentSchema } from '@repo/schemas'
+import type { DocumentSchema } from '@repo/schemas';
+import { MarkDown } from '../../_components/MarkDown';
+import api from '../../config/axios';
 
 export default async function DocPage({
 	params
@@ -13,12 +13,13 @@ export default async function DocPage({
 
 	try {
 		const response = await api.get<DocumentSchema>(`/document/title/${decodeURIComponent(resolvedParams.title)}`);
-		console.log("URL chamada:", api.defaults.baseURL + `/document/title/${decodeURIComponent(resolvedParams.title)}`);
 		docs = response.data;
-	} catch (error: any) {
-		if (error.response) {
-			console.error("Dados do erro:", error.response.data);
-			console.error("Status do erro:", error.response.status);
+	} catch (error: unknown) {
+		if (error) {
+			const err = error as { response?: { data?: { message?: string } }; message?: string };
+			const message = err.response?.data?.message || err.message || "Falha ao criar documento.";
+
+			console.error("Erro ao buscar documento:", message);
 		}
 	}
 

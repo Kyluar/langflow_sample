@@ -1,9 +1,9 @@
 'use client'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { updateDocAction } from '../actions/updateDocAction'
 import toast from 'react-hot-toast'
 import { deleteDocAction } from '../actions/deleteDocAction'
-import { useRouter } from 'next/navigation'
+import { updateDocAction } from '../actions/updateDocAction'
 import ConfirmWindow from './ConfirmWindow'
 
 export function MarkDownEditor({
@@ -22,7 +22,7 @@ export function MarkDownEditor({
     const [loadingDelete, setLoadingDelete] = useState(false)
     const router = useRouter()
 
-async function saveDoc() {   
+    async function saveDoc() {
         setLoadingUpdate(true)
         try {
             await toast.promise(updateDocAction(docId, title, content), {
@@ -34,14 +34,14 @@ async function saveDoc() {
                 error: (err) => err.message || 'Erro ao salvar alterações.',
             })
             onSaveSuccess()
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error(error)
         } finally {
             setLoadingUpdate(false)
         }
     }
 
-    async function deleteDoc() {  
+    async function deleteDoc() {
         setLoadingDelete(true)
         router.push('/')
         try {
@@ -50,8 +50,8 @@ async function saveDoc() {
                 success: (data) => { return data.message || 'Criado com sucesso!' },
                 error: (err) => err.message || 'Erro ao criar documento.',
             })
-            
-        } catch (error) {
+
+        } catch (error: unknown) {
             console.error(error)
         } finally {
             setLoadingDelete(false)
@@ -70,7 +70,7 @@ async function saveDoc() {
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
                 <p className="text-sm text-yellow-700 font-bold">Modo Edição Ativo</p>
             </div>
-            
+
             <textarea
                 className="w-full min-h-[500px] p-6 font-mono text-sm border-2 border-ctd-azul-02/20 rounded-xl focus:border-ctd-azul-02 outline-none shadow-inner bg-gray-50"
                 value={content}
