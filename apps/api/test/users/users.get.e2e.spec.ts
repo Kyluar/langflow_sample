@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common'
 import { UserSchema, userSchema } from '@repo/schemas'
 import request from 'supertest'
-import { createApp } from 'test/lib/utils/setup'
+import { setupTestEnvironment } from 'test/lib/utils/setup'
 import { teardownTestEnvironment } from 'test/lib/utils/teardown'
 
 describe('User: E2E GET Tests', () => {
@@ -9,7 +9,7 @@ describe('User: E2E GET Tests', () => {
 	let existingUserId: string
 
 	beforeAll(async () => {
-		app = await createApp()
+		app = await setupTestEnvironment()
 		await request(app.getHttpServer())
 			.get('/users')
 			.expect((res) => {
