@@ -3,7 +3,8 @@ import { useState } from 'react'
 import { updateDocAction } from '../actions/updateDocAction'
 import toast from 'react-hot-toast'
 import { deleteDocAction } from '../actions/deleteDocAction'
-import router from 'next/router'
+import { useRouter } from 'next/navigation'
+import ConfirmWindow from './ConfirmWindow'
 
 export function MarkDownEditor({
     initialContent,
@@ -19,48 +20,49 @@ export function MarkDownEditor({
     const [content, setContent] = useState(initialContent)
     const [loadingUpdate, setLoadingUpdate] = useState(false)
     const [loadingDelete, setLoadingDelete] = useState(false)
+    const router = useRouter()
 
-    async function salvar() {
-        const result = updateDocAction(docId, title, content)
+async function saveDoc() {   
+        setLoadingUpdate(true)
         try {
-            setLoadingUpdate(true)
-            await toast.promise(result, {
+            await toast.promise(updateDocAction(docId, title, content), {
                 loading: 'Salvando alterações...',
-                success: () => {
-                    return <b>Alterações salvas com sucesso!</b>
+                success: (data) => {
+                    if (!data.success) throw new Error(data.message as string);
+                    return data.message || 'Alterações salvas com sucesso!';
                 },
-                error: (err) => {
-                    console.error(err)
-                    return <b>Erro ao salvar documento.</b>
-                }
+                error: (err) => err.message || 'Erro ao salvar alterações.',
             })
-        } catch (error: unknown) {
+            onSaveSuccess()
+        } catch (error: any) {
             console.error(error)
         } finally {
             setLoadingUpdate(false)
-            onSaveSuccess()
         }
     }
 
-    async function deleteDoc() {
-        if (!confirm(`Tem certeza que deseja excluir "${title}"? esta ação é irreversível.`)) {
-            return
-        }
-
+    async function deleteDoc() {  
         setLoadingDelete(true)
+        router.push('/')
         try {
-            const result = await toast.promise(deleteDocAction(docId), {
+            await toast.promise(deleteDocAction(docId), {
                 loading: 'Excluindo documento...',
-                success: (res) => res.message,
-                error: (err) => err.message
+                success: (data) => { return data.message || 'Criado com sucesso!' },
+                error: (err) => err.message || 'Erro ao criar documento.',
             })
-
-            router.push('/')
+            
         } catch (error) {
             console.error(error)
         } finally {
             setLoadingDelete(false)
         }
+    }
+
+    function confirmDelete() {
+        ConfirmWindow({
+            message: `Tem certeza que deseja excluir "${title}"? Esta ação é irreversível.`,
+            onConfirm: deleteDoc
+        })
     }
 
     return (
@@ -77,7 +79,7 @@ export function MarkDownEditor({
             <div className="flex flex-row gap-3">
                 <button
                     type="button"
-                    onClick={salvar}
+                    onClick={saveDoc}
                     disabled={loadingUpdate}
                     className="
                         inline-flex items-center justify-center gap-2
@@ -100,7 +102,7 @@ export function MarkDownEditor({
 
                 <button
                     type="button"
-                    onClick={deleteDoc}
+                    onClick={confirmDelete}
                     disabled={loadingDelete}
                     className="
                         inline-flex items-center justify-center gap-2

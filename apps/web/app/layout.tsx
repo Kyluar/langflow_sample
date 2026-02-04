@@ -58,7 +58,7 @@ export default async function RootLayout({
 				</header>
 
 				{/* Main Content */}
-				<main className="flex-grow overflow-y-auto px-10 py-12 bg-white">
+				<main className="flex-grow overflow-y-auto">
 					<div>{children}</div>
 				</main>
 			</body>

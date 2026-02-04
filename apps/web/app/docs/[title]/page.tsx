@@ -3,38 +3,36 @@ import api from '../../config/axios'
 import type { DocumentSchema } from '@repo/schemas'
 
 export default async function DocPage({
-    params
+	params
 }: {
-    params: Promise<{ title: string }>
+	params: Promise<{ title: string }>
 }) {
-    // 1. Aguarda o parâmetro da URL
-    const resolvedParams = await params;
-    
-    // 2. Decodifica o título (transfere "Guia%20do%20Dev" para "Guia do Dev")
-    const decodedTitle = decodeURIComponent(resolvedParams.title);
+	const resolvedParams = await params;
 
-    let docs: DocumentSchema | null = null;
+	let docs: DocumentSchema | null = null;
 
-    try {
-        // 3. Chamada à API - Verifique se a URL da API está correta
-        // Se o título tem espaços, o axios/browser precisa enviar corretamente
-        const response = await api.get<DocumentSchema>(`/document/title/${decodedTitle}`);
-        docs = response.data;
-    } catch (error) {
-        console.error("Erro na busca por título:", error);
-    }
+	try {
+		const response = await api.get<DocumentSchema>(`/document/title/${decodeURIComponent(resolvedParams.title)}`);
+		console.log("URL chamada:", api.defaults.baseURL + `/document/title/${decodeURIComponent(resolvedParams.title)}`);
+		docs = response.data;
+	} catch (error: any) {
+		if (error.response) {
+			console.error("Dados do erro:", error.response.data);
+			console.error("Status do erro:", error.response.status);
+		}
+	}
 
-    if (!docs) {
-        return (
-            <div className="p-10">
-                <h2 className="text-2xl font-bold text-gray-400">Documento não encontrado.</h2>
-                <p>Título buscado: {decodedTitle}</p>
-            </div>
-        );
-    }
+	if (!docs) {
+		return (
+			<div className="p-10">
+				<h2 className="text-2xl font-bold text-gray-400">Documento não encontrado.</h2>
+				<p>Título buscado: {decodeURIComponent(resolvedParams.title)}</p>
+			</div>
+		);
+	}
 
 	return (
-		<article className="prose prose-slate max-w-none">
+		<article className="prose prose-slate max-w-none px-10 py-12">
 			{/* Header da Página */}
 			<div className="mb-8 border-b border-gray-100 pb-4">
 				<h2 className="text-4xl font-extrabold text-ctd-azul-01 mt-2 mb-3">

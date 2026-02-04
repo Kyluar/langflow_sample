@@ -11,12 +11,12 @@ export async function updateDocAction(id: string, title: string, content: string
         revalidatePath(`/docs/${encodeURIComponent(title)}`);
         revalidatePath('/', 'layout');
 
-        return { success: true };
-    } catch (error) {
+        return { success: true, message: "Documento atualizado com sucesso!" };
+    } catch (error: any) {
         console.error("Erro na atualização:", error);
-        return { 
-            success: false, 
-            error: error || "Falha ao atualizar documento." 
+        return {
+            success: false,
+            message: error || "Falha ao atualizar documento."
         };
     }
 }
