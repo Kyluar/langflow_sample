@@ -4,6 +4,7 @@ import { Test } from '@nestjs/testing'
 import { AppModule } from 'src/app.module'
 import {
 	PrismaClientExceptionFilter,
+	ZodSerializationExceptionFilter,
 	ZodValidationExceptionFilter
 } from 'src/lib/filters'
 
@@ -18,6 +19,8 @@ export async function createApp(): Promise<INestApplication> {
 
 	const { httpAdapter } = app.get(HttpAdapterHost)
 	app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter))
+
+	app.useGlobalFilters(new ZodSerializationExceptionFilter())
 
 	app.useGlobalFilters(new ZodValidationExceptionFilter())
 
