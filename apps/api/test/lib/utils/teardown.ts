@@ -1,12 +1,18 @@
 import { INestApplication } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { cleanDatabase } from '@repo/database'
 import { CustomPrismaClient } from 'src/lib/extensions/prisma.extension'
 
 export async function teardownTestEnvironment(
 	app: INestApplication
 ): Promise<void> {
 	try {
+		const schema = app.get(ConfigService).getOrThrow('POSTGRES_DB_SCHEMA')
 		const prismaService = app.get<CustomPrismaClient>('PrismaService')
-		await prismaService.client.$disconnect()
+		const prisma = prismaService.client
+
+		await cleanDatabase(prisma, schema, false)
+		prisma.$disconnect()
 		await app.close()
 	} catch (err) {
 		console.error(err)

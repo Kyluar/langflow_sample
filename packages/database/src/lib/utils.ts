@@ -52,3 +52,28 @@ export async function seedDatabase({
 		throw error
 	}
 }
+
+export async function cleanDatabase(
+	prisma: PrismaClient,
+	schema: string,
+	log: boolean = true
+): Promise<void> {
+	const models = await prisma.$queryRaw<Array<{ tablename: string }>>`
+	SELECT tablename FROM pg_tables
+	WHERE schemaname = ${schema}
+	AND tablename != '_prisma_migrations';
+  `
+
+	const requests = models.map((row) =>
+		prisma.$executeRawUnsafe(
+			`TRUNCATE TABLE "${schema}"."${row.tablename}" RESTART IDENTITY CASCADE;`
+		)
+	)
+
+	try {
+		await prisma.$transaction(requests)
+		if (log) console.info('Database cleaned successfully!')
+	} catch (error) {
+		console.error('Error cleaning database:', error)
+	}
+}
