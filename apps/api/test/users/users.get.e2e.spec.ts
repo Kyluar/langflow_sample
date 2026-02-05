@@ -48,6 +48,25 @@ describe('User: E2E GET Tests', () => {
 		})
 	})
 
+	describe(`Fail cases`, () => {
+		describe(`${API_ROUTES.USERS.BASE}/:id`, () => {
+			it(`should fail when id is not an uuid (invalid format)`, async () => {
+				await request(app.getHttpServer())
+					.get(API_ROUTES.USERS.BY_ID('invalid-id-format'))
+					.expect(({ statusCode }) => {
+						expect(statusCode).toBe(400)
+					})
+			})
+			it(`should fail when uuid is not associated with a user (not found)`, async () => {
+				await request(app.getHttpServer())
+					.get(API_ROUTES.USERS.BY_ID('550e8400-e29b-41d4-a716-446655440000'))
+					.expect(({ statusCode }) => {
+						expect(statusCode).toBe(404)
+					})
+			})
+		})
+	})
+
 	afterAll(async () => {
 		await teardownTestEnvironment(app)
 	})
