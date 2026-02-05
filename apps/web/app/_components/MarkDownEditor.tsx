@@ -72,7 +72,7 @@ export function MarkDownEditor({
             </div>
 
             <textarea
-                className="w-full min-h-[500px] p-6 font-mono text-sm border-2 border-ctd-azul-02/20 rounded-xl focus:border-ctd-azul-02 outline-none shadow-inner bg-gray-50"
+                className="w-full min-h-[500px] resize-none p-6 font-mono text-sm border-2 border-ctd-azul-02/20 rounded-xl focus:border-ctd-azul-02 outline-none shadow-inner bg-gray-50"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
             />
