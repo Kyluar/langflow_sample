@@ -8,6 +8,7 @@ import {
 	Patch,
 	Post
 } from '@nestjs/common'
+import { RESOURCES } from '@repo/constants'
 import { DocumentSchema } from '@repo/schemas'
 import {
 	CreateDocumentDto,
@@ -15,7 +16,7 @@ import {
 } from 'src/lib/types/dto/document.dto'
 import { DocumentService } from './document.service'
 
-@Controller('document')
+@Controller(RESOURCES.DOCUMENTS)
 export class DocumentController {
 	constructor(private readonly service: DocumentService) {}
 

@@ -8,6 +8,7 @@ import {
 	Patch,
 	Post
 } from '@nestjs/common'
+import { RESOURCES } from '@repo/constants'
 import { UserSchema } from '@repo/schemas'
 import { ZodResponse } from 'nestjs-zod'
 import {
@@ -18,7 +19,7 @@ import {
 import { IUserController } from 'src/lib/types/interfaces/user.interface'
 import { UsersService } from './users.service'
 
-@Controller('users')
+@Controller(RESOURCES.USERS)
 export class UsersController implements IUserController {
 	constructor(private readonly service: UsersService) {}
 

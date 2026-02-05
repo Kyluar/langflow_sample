@@ -27,6 +27,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^11.1.12",
     "@nestjs/swagger": "^11.2.5",
+    "@repo/constants": "workspace:^",
     "@repo/database": "workspace:^",
     "@repo/schemas": "workspace:^",
     "nestjs-prisma": "^0.27.0",
