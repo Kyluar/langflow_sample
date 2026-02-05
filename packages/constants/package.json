@@ -1,0 +1,29 @@
+{
+  "name": "@repo/constants",
+  "version": "1.0.0",
+  "description": "Shared constants between the monorepo aplications",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "lint": "biome lint --write",
+    "format": "biome format --write",
+    "check-types": "tsc --noEmit",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:^",
+    "@types/node": "^25.0.10",
+    "typescript": "^5.9.3"
+  }
+}
