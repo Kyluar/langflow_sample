@@ -19,6 +19,17 @@
 			width: 100%;
 		}
 	}
+
+	--animate-shimmer-slide: shimmer-slide 2s infinite ease-in-out;
+
+    @keyframes shimmer-slide {
+        from {
+            transform: translateX(-100%);
+        }
+        to {
+            transform: translateX(100%);
+        }
+    }
 }
 
 /* --- Personalização da Barra de Rolagem (Versão Robusta) --- */

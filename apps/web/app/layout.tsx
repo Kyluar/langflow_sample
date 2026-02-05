@@ -1,10 +1,10 @@
 import { Logo } from '@repo/ui/logo'
-import './globals.css'
-import api from './config/axios'
-import Link from 'next/link'
-import type { DocumentSchema } from '@repo/schemas'
+import { Suspense } from 'react'
 import { CreateDocButton } from './_components/CreateDocButton'
+import DocumentList from './_components/DocumentList'
+import { DocumentListSkeleton } from './_components/DocumentListSkeleton'
 import { ToasterContext } from './_components/ToasterProvider'
+import './globals.css'
 export const dynamic = 'force-dynamic'
 
 export default async function RootLayout({
@@ -12,13 +12,6 @@ export default async function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
-	let docs: DocumentSchema[] = []
-	try {
-		const response = await api.get<DocumentSchema[]>('/document')
-		docs = response.data
-	} catch (error) {
-		console.log(error)
-	}
 
 	return (
 		<html lang="pt-BR">
@@ -40,20 +33,9 @@ export default async function RootLayout({
 					</h1>
 
 					{/* Navigation */}
-					<nav className="w-full space-y-2.5">
-						{docs.map((item) => (
-							<Link
-								key={item.id}
-								href={`/docs/${encodeURIComponent(item.title)}`} // caso mude o nome da rota, mude aqui
-								className="group relative flex items-center justify-center py-3 px-4 rounded-lg overflow-hidden transition-all duration-300"
-							>
-								<span className="absolute inset-0 bg-white/15 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-center"></span>
-								<span className="relative z-10 text-lg font-medium group-hover:scale-105 transition-transform duration-300">
-									{item.title}
-								</span>
-							</Link>
-						))}
-					</nav>
+					<Suspense fallback={<DocumentListSkeleton />}>
+						<DocumentList />
+					</Suspense>
 					<CreateDocButton />
 				</header>
 
