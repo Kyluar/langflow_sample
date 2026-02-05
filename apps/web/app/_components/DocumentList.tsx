@@ -3,13 +3,10 @@ import Link from 'next/link';
 import api from '../config/axios';
 import { DocumentListSkeleton } from "./DocumentListSkeleton";
 
-const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
 export default async function DocumentList() {
     let documents = [];
 
     try {
-        await delay(3000);
         const response = await api.get<DocumentSchema[]>('/document');
         documents = response.data || [];
     } catch (error) {
