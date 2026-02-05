@@ -1,8 +1,8 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": ".",
+  "rootDir": "..",
   "testEnvironment": "node",
-  "testRegex": ".*\\.e2e.spec\\.ts$",
+  "testRegex": ".*\\.e2e\\.spec\\.ts$",
   "transform": {
     "^.+\\.ts$": ["ts-jest", {
       "tsconfig": {
@@ -13,13 +13,13 @@
       }
     }]
   },
-  "moduleNameMapper": {
-    "^@repo/schemas$": "<rootDir>/../../../packages/schemas/src/index.ts",
-    "^@repo/database$": "<rootDir>/../../../packages/database/src/index.ts",
-    "^(\\.{1,2}/.*)\\.js$": "$1",
-    "^test/(.*)$": "<rootDir>/$1",
-    "^src/(.*)$": "<rootDir>/../src/$1"
-  },
+"moduleNameMapper": {
+  "^@repo/schemas$": "<rootDir>/../../packages/schemas/src/index.ts",
+  "^@repo/database$": "<rootDir>/../../packages/database/src/index.ts",
+  "^test/(.*)$": "<rootDir>/test/$1",
+  "^src/(.*)$": "<rootDir>/src/$1",
+  "^(\\.{1,2}/.*)\\.js$": "$1"
+},
   "modulePaths": [
     "<rootDir>"
   ],
