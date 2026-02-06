@@ -44,12 +44,6 @@
     },
     "@repo/database#db:migrate:test": {
       "cache": false
-    },
-    "@repo/database#db:push:test": {
-      "cache": false
-    },
-    "@repo/database#db:seed:test": {
-      "cache": false
     }
   }
 }

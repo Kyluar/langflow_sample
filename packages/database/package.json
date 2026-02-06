@@ -19,9 +19,7 @@
     "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate",
     "db:seed": "prisma db seed",
-    "db:migrate:test": "dotenv -e ../../.env.database.test -- prisma migrate deploy",
-    "db:push:test": "dotenv -e ../../.env.database.test -- prisma db push",
-    "db:seed:test": "dotenv -e ../../.env.database.test -- prisma db seed"
+    "db:migrate:test": "dotenv -e ../../.env.database.test -- prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
