@@ -1,7 +1,9 @@
 import { INestApplication } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { HttpAdapterHost } from '@nestjs/core'
 import { Test } from '@nestjs/testing'
 import {
+	cleanDatabase,
 	PrismaClient,
 	seedDatabase,
 	seedDocuments,
@@ -50,13 +52,20 @@ async function setupDatabase(prisma: PrismaClient): Promise<void> {
 				whereCb: (item: any) => ({ title: item.title })
 			}
 			// biome-ignore-end lint/suspicious/noExplicitAny: Required
-		}
+		},
+		log: false
 	})
 }
 
 export async function setupTestEnvironment(): Promise<INestApplication> {
 	const app = await createApp()
+	const schema = app.get(ConfigService).getOrThrow('POSTGRES_DB_SCHEMA')
+
 	const prismaService = app.get<CustomPrismaClient>('PrismaService')
-	await setupDatabase(prismaService.client)
+	const prisma = prismaService.client
+
+	await cleanDatabase(prisma, schema, false)
+	await setupDatabase(prisma)
+
 	return app
 }

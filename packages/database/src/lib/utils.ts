@@ -21,11 +21,13 @@ type SeedDatabaseParams = {
 			whereCb: (item: unknown) => unknown
 		}
 	}
+	log?: boolean
 }
 
 export async function seedDatabase({
 	prisma,
-	models
+	models,
+	log = true
 }: SeedDatabaseParams): Promise<void> {
 	const transactions: Prisma.PrismaPromise<unknown>[] = Object.entries(
 		models
@@ -44,9 +46,10 @@ export async function seedDatabase({
 
 	try {
 		const result = await prisma.$transaction(transactions)
-		console.info(
-			`✅ Database seeded successfully! ${result.length} records processed.`
-		)
+		if (log)
+			console.info(
+				`✅ Database seeded successfully! ${result.length} records processed.`
+			)
 	} catch (error) {
 		console.error('❌ Error seeding database:', error)
 		throw error
@@ -64,6 +67,11 @@ export async function cleanDatabase(
 	AND tablename != '_prisma_migrations';
   `
 
+	if (models.length === 0) {
+		console.warn(`⚠️ Aviso: Nenhuma tabela encontrada no schema "${schema}".`)
+		return
+	}
+
 	const requests = models.map((row) =>
 		prisma.$executeRawUnsafe(
 			`TRUNCATE TABLE "${schema}"."${row.tablename}" RESTART IDENTITY CASCADE;`
@@ -72,8 +80,8 @@ export async function cleanDatabase(
 
 	try {
 		await prisma.$transaction(requests)
-		if (log) console.info('Database cleaned successfully!')
+		if (log) console.info(`Schema ${schema} cleaned successfully!`)
 	} catch (error) {
-		console.error('Error cleaning database:', error)
+		console.error(`❌ Error found when cleaning ${schema} schema:`, error)
 	}
 }

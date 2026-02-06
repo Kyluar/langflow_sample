@@ -1,5 +1,5 @@
-import { config } from 'dotenv'
 import path from 'node:path'
+import { config } from 'dotenv'
 import { generateDatabaseUrl } from './src/lib/utils'
 
 if (!process.env.POSTGRES_HOST) {

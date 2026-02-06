@@ -25,6 +25,7 @@
       "persistent": true
     },
     "test:e2e": {
+      "dependsOn": ["@repo/database#db:migrate:test"],
       "cache": false
     },
     "@repo/database#build": {

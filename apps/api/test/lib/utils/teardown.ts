@@ -8,14 +8,14 @@ export async function teardownTestEnvironment(
 ): Promise<void> {
 	try {
 		const schema = app.get(ConfigService).getOrThrow('POSTGRES_DB_SCHEMA')
+
 		const prismaService = app.get<CustomPrismaClient>('PrismaService')
 		const prisma = prismaService.client
 
 		await cleanDatabase(prisma, schema, false)
-		prisma.$disconnect()
 		await app.close()
 	} catch (err) {
 		console.error(err)
-		throw new Error('Failed to teardown test environment')
+		throw new Error('Failed to teardown test environment:', err)
 	}
 }
