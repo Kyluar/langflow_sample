@@ -4,10 +4,11 @@
 import { type DocumentSchema, updateDocumentSchema } from "@repo/schemas";
 import { revalidatePath } from "next/cache";
 import api from "../config/axios";
+import { RESOURCES } from "@repo/constants";
 export async function updateDocAction(id: string, title: string, content: string) {
     try {
         const validatedData = updateDocumentSchema.parse({ content });
-        await api.patch<DocumentSchema>(`/document/${id}`, validatedData);
+        await api.patch<DocumentSchema>(`/${RESOURCES.DOCUMENTS}/${id}`, validatedData);
         revalidatePath(`/docs/${encodeURIComponent(title)}`);
         revalidatePath('/', 'layout');
 

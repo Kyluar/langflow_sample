@@ -1,6 +1,7 @@
 import type { DocumentSchema } from '@repo/schemas';
 import { MarkDown } from '../../_components/MarkDown';
 import api from '../../config/axios';
+import { RESOURCES } from '@repo/constants';
 
 export default async function DocPage({
 	params
@@ -12,7 +13,7 @@ export default async function DocPage({
 	let docs: DocumentSchema | null = null;
 
 	try {
-		const response = await api.get<DocumentSchema>(`/document/title/${decodeURIComponent(resolvedParams.title)}`);
+		const response = await api.get<DocumentSchema>(`/${RESOURCES.DOCUMENTS}/title/${decodeURIComponent(resolvedParams.title)}`);
 		docs = response.data;
 	} catch (error: unknown) {
 		if (error) {

@@ -2,10 +2,11 @@
 
 import { revalidatePath } from "next/cache";
 import api from "../config/axios";
+import { RESOURCES } from "@repo/constants";
 
 export async function deleteDocAction(id: string) {
     try {
-        await api.delete(`/document/${id}`);
+        await api.delete(`/${RESOURCES.DOCUMENTS}/${id}`);
 
         revalidatePath('/', 'layout');
 

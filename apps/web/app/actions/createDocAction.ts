@@ -4,12 +4,13 @@ import type { CreateDocumentSchema, DocumentSchema } from "@repo/schemas";
 import { createDocumentSchema } from "@repo/schemas";
 import { revalidatePath } from "next/cache";
 import api from "../config/axios";
+import { RESOURCES } from "@repo/constants";
 
 export async function createDocAction(data: CreateDocumentSchema) {
     try {
         const validatedData = createDocumentSchema.parse(data);
 
-        const res = await api.post<DocumentSchema>('/document', validatedData);
+        const res = await api.post<DocumentSchema>(`/${RESOURCES.DOCUMENTS}`, validatedData);
 
         revalidatePath('/', 'layout');
         return { success: true, message: 'Documento criado com sucesso!', title: res.data.title };

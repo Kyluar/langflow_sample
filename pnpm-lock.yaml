@@ -123,6 +123,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@repo/constants':
+        specifier: workspace:^
+        version: link:../../packages/constants
       '@repo/schemas':
         specifier: workspace:^
         version: link:../../packages/schemas

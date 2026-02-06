@@ -2,12 +2,13 @@ import type { DocumentSchema } from "@repo/schemas";
 import Link from 'next/link';
 import api from '../config/axios';
 import { DocumentListSkeleton } from "./DocumentListSkeleton";
+import { RESOURCES } from "@repo/constants";
 
 export default async function DocumentList() {
     let documents = [];
 
     try {
-        const response = await api.get<DocumentSchema[]>('/document');
+        const response = await api.get<DocumentSchema[]>(RESOURCES.DOCUMENTS);
         documents = response.data || [];
     } catch (error) {
         console.error("Falha ao conectar na API:", error);
