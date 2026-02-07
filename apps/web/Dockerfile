@@ -1,32 +1,36 @@
-FROM node:lts-alpine3.23 AS pruner
-
+FROM node:lts-alpine3.23 AS base
+RUN apk update
+RUN apk add --no-cache libc6-compat
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 WORKDIR /app
-RUN npm install -g turbo
+
+FROM base AS pruner
+RUN pnpm install -g turbo
 COPY . .
 RUN turbo prune --scope=web --docker
 
-FROM node:lts-alpine3.23 AS installer
-
-WORKDIR /app
+FROM base AS installer
 COPY --from=pruner /app/out/json/ .
 COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=pruner /app/turbo.json ./turbo.json
-RUN npm install -g pnpm
 RUN pnpm install --frozen-lockfile
 
-FROM node:lts-alpine3.23 AS builder
-WORKDIR /app
+FROM base AS builder
 COPY --from=installer /app/ .
 COPY --from=pruner /app/out/full .
-RUN npm install -g pnpm
 RUN pnpm run build
 
-FROM node:lts-alpine3.23 AS runner
-WORKDIR /app
+FROM base AS runner
 ENV NODE_ENV=production
-RUN npm install -g pnpm
-COPY --from=builder /app/ .
-WORKDIR /app/apps/web
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+USER nextjs
 
-CMD ["pnpm","start"]
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
 
+EXPOSE 3000
+
+CMD ["node","apps/web/server.js"]
