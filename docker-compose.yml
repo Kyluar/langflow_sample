@@ -1,0 +1,60 @@
+services:
+  ctd-resource-db:
+    image: postgres:alpine3.23
+    hostname: db
+    container_name: ctd-resource-db
+    restart: always
+    env_file: .env.database
+    ports:
+      - '5432:5432'
+    networks:
+      - ctd-resource-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  ctd-resource-api:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    image: ctd-resource-api:latest
+    hostname: api
+    container_name: ctd-resource-api
+    restart: always
+    env_file:
+      - .env.database
+      - ./apps/api/.env.production
+    ports:
+      - '3001:3001'
+    depends_on:
+      ctd-resource-db:
+        condition: service_healthy
+        restart: true
+    networks:
+      - ctd-resource-network
+
+  ctd-resource-web:
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+    image: ctd-resource-web:latest
+    hostname: web
+    container_name: ctd-resource-web
+    restart: always
+    ports:
+      - '3000:3000'
+    depends_on:
+      ctd-resource-db:
+        condition: service_healthy
+        restart: true
+      ctd-resource-api:
+        condition: service_started
+    networks:
+      - ctd-resource-network
+
+networks:
+  ctd-resource-network:
+    name: ctd-resource-network
