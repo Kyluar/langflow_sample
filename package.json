@@ -9,6 +9,8 @@
     "test:e2e": "turbo run test:e2e",
     "db:migrate": "turbo run db:migrate",
     "db:generate": "turbo run db:generate",
+    "db:deploy": "turbo run db:deploy",
+    "db:deploy:test": "turbo run db:deploy:test",
     "db:seed": "turbo run db:seed",
     "format": "biome format --write",
     "check": "turbo run check",
