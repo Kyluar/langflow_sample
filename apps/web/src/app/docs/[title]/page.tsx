@@ -1,36 +1,46 @@
-import type { DocumentSchema } from '@repo/schemas';
-import { MarkDown } from '../../_components/MarkDown';
-import api from '../../config/axios';
-import { RESOURCES } from '@repo/constants';
+import { RESOURCES } from '@repo/constants'
+import type { DocumentSchema } from '@repo/schemas'
+import api from '../../../lib/config/axios'
+import { MarkDown } from '../../../ui/components/MarkDown'
 
 export default async function DocPage({
 	params
 }: {
 	params: Promise<{ title: string }>
 }) {
-	const resolvedParams = await params;
+	const resolvedParams = await params
 
-	let docs: DocumentSchema | null = null;
+	let docs: DocumentSchema | null = null
 
 	try {
-		const response = await api.get<DocumentSchema>(`/${RESOURCES.DOCUMENTS}/title/${decodeURIComponent(resolvedParams.title)}`);
-		docs = response.data;
+		const response = await api.get<DocumentSchema>(
+			`/${RESOURCES.DOCUMENTS}/title/${decodeURIComponent(resolvedParams.title)}`
+		)
+		docs = response.data
 	} catch (error: unknown) {
 		if (error) {
-			const err = error as { response?: { data?: { message?: string } }; message?: string };
-			const message = err.response?.data?.message || err.message || "Falha ao criar documento.";
+			const err = error as {
+				response?: { data?: { message?: string } }
+				message?: string
+			}
+			const message =
+				err.response?.data?.message ||
+				err.message ||
+				'Falha ao criar documento.'
 
-			console.error("Erro ao buscar documento:", message);
+			console.error('Erro ao buscar documento:', message)
 		}
 	}
 
 	if (!docs) {
 		return (
 			<div className="p-10">
-				<h2 className="text-2xl font-bold text-gray-400">Documento não encontrado.</h2>
+				<h2 className="text-2xl font-bold text-gray-400">
+					Documento não encontrado.
+				</h2>
 				<p>Título buscado: {decodeURIComponent(resolvedParams.title)}</p>
 			</div>
-		);
+		)
 	}
 
 	return (
