@@ -32,6 +32,7 @@ export function SidebarWrapper({ children }: { children: React.ReactNode }) {
 
                 {/* Botão de Toggle - Sempre visível na área da sidebar */}
                 <button
+                    type={'button'}
                     onClick={() => setIsOpen(!isOpen)}
                     className={`
                         absolute top-6 z-50
