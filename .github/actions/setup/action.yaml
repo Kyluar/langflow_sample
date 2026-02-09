@@ -1,0 +1,15 @@
+name: 'Setup Dependencies'
+description: 'Setup tools/dependencies'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup PNPM
+      uses: pnpm/action-setup@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version-file: ./package.json
+        cache: pnpm
+        cache-dependency-path: ./pnpm-lock.yaml
