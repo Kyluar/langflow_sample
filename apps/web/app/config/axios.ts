@@ -1,12 +1,12 @@
-import axios from "axios";
+import 'server-only'
 
-const HOST = "localhost:3001";
+import axios from 'axios'
 
 const api = axios.create({
-    baseURL: `http://${HOST}`,
-    headers: {
-        "Content-Type": "application/json",
-    },
-});
+	baseURL: process.env.API_BASE_URL,
+	headers: {
+		'Content-Type': 'application/json'
+	}
+})
 
-export default api;
+export default api
