@@ -1,0 +1,38 @@
+:root {
+	--header-height: 5rem;
+}
+
+body {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: var(--header-height) 1fr;
+	grid-template-areas:
+		'header header'
+		'sidenav main';
+	min-height: 100vh;
+	overflow-y: auto;
+}
+
+#web-header {
+	z-index: 1;
+	top: 0;
+	position: sticky;
+	grid-area: header;
+}
+
+#web-sidenav {
+	z-index: 1;
+	top: calc(var(--header-height));
+	align-self: start;
+	position: sticky;
+	grid-area: sidenav;
+	height: calc(100vh - var(--header-height));
+	overflow-y: auto;
+	overflow-x: hidden;
+	scrollbar-width: thin;
+	scrollbar-color: #fff3 transparent;
+}
+
+#web-main {
+	grid-area: main;
+}
