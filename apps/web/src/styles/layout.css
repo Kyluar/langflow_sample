@@ -18,6 +18,20 @@ body {
 	top: 0;
 	position: sticky;
 	grid-area: header;
+
+	> .sidenav-toggler {
+		display: none;
+		border: 1px solid #fff;
+		padding: 0.3rem;
+		border-radius: 5px;
+		margin-right: 1rem;
+		cursor: pointer;
+
+		&.sidenav-toggler:hover {
+			background-color: var(--color-ctd-azul-01);
+			filter: brightness(1.3);
+		}
+	}
 }
 
 #web-sidenav {
@@ -30,9 +44,38 @@ body {
 	overflow-y: auto;
 	overflow-x: hidden;
 	scrollbar-width: thin;
-	scrollbar-color: #fff3 transparent;
+	scrollbar-color: rgba(206, 148, 148, 0.2) transparent;
 }
 
 #web-main {
 	grid-area: main;
+}
+
+@media (max-width: 900px) {
+	body {
+		grid-template-areas:
+			'sidenav header'
+			'main main';
+	}
+
+	#web-sidenav {
+		top: 0;
+		position: fixed;
+		height: 100vh;
+		display: none;
+		&.open {
+			display: block;
+		}
+	}
+
+	#web-header {
+		z-index: 1;
+		top: 0;
+		position: sticky;
+		grid-area: header;
+
+		> .sidenav-toggler {
+			display: inline-block;
+		}
+	}
 }
