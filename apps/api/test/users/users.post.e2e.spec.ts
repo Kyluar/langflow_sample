@@ -1,6 +1,11 @@
 import { INestApplication } from '@nestjs/common'
 import { API_ROUTES } from '@repo/constants'
-import { CreateUserSchema, UserSchema, userSchema } from '@repo/schemas'
+import {
+	ApiResponse,
+	CreateUserSchema,
+	UserSchema,
+	userSchema
+} from '@repo/schemas'
 import request from 'supertest'
 import { setupTestEnvironment } from 'test/lib/utils/setup'
 import { teardownTestEnvironment } from 'test/lib/utils/teardown'
@@ -23,8 +28,8 @@ describe('User: E2E POST Tests', () => {
 				.post(API_ROUTES.USERS.BASE)
 				.send(validUserData)
 				.expect((res) => {
-					const user = res.body as UserSchema
-					expect(userSchema.safeParse(user).success).toBe(true)
+					const { data } = res.body as ApiResponse<UserSchema>
+					expect(userSchema.safeParse(data).success).toBe(true)
 					expect(res.statusCode).toBe(201)
 				})
 		})

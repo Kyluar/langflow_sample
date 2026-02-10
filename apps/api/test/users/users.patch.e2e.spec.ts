@@ -1,6 +1,11 @@
 import { INestApplication } from '@nestjs/common'
 import { API_ROUTES } from '@repo/constants'
-import { CreateUserSchema, UserSchema, userSchema } from '@repo/schemas'
+import {
+	ApiResponse,
+	CreateUserSchema,
+	UserSchema,
+	userSchema
+} from '@repo/schemas'
 import request from 'supertest'
 import { setupTestEnvironment } from 'test/lib/utils/setup'
 import { teardownTestEnvironment } from 'test/lib/utils/teardown'
@@ -20,9 +25,9 @@ describe('User: E2E PATCH Tests', () => {
 		await request(app.getHttpServer())
 			.get(API_ROUTES.USERS.BASE)
 			.expect((res) => {
-				const users = res.body as UserSchema[]
-				existingUserId = users[0].id
-				duplicatedEmail = users[1].email
+				const { data } = res.body as ApiResponse<UserSchema[]>
+				existingUserId = data[0].id
+				duplicatedEmail = data[1].email
 			})
 	})
 
@@ -32,12 +37,12 @@ describe('User: E2E PATCH Tests', () => {
 				.patch(API_ROUTES.USERS.BY_ID(existingUserId))
 				.send(validUserData)
 				.expect((res) => {
-					const user = res.body as UserSchema
+					const { data } = res.body as ApiResponse<UserSchema>
 					expect(res.statusCode).toBe(200)
-					expect(userSchema.safeParse(user).success).toBe(true)
-					expect(user.id).toBe(existingUserId)
-					expect(user.name).toBe(validUserData.name)
-					expect(user.email).toBe(validUserData.email)
+					expect(userSchema.safeParse(data).success).toBe(true)
+					expect(data.id).toBe(existingUserId)
+					expect(data.name).toBe(validUserData.name)
+					expect(data.email).toBe(validUserData.email)
 				})
 		})
 	})

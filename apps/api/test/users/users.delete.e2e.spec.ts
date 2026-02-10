@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common'
 import { API_ROUTES } from '@repo/constants'
-import { UserSchema, userSchema } from '@repo/schemas'
+import { ApiResponse, UserSchema, userSchema } from '@repo/schemas'
 import request from 'supertest'
 import { setupTestEnvironment } from 'test/lib/utils/setup'
 import { teardownTestEnvironment } from 'test/lib/utils/teardown'
@@ -14,8 +14,8 @@ describe('User: E2E DELETE Tests', () => {
 		await request(app.getHttpServer())
 			.get(API_ROUTES.USERS.BASE)
 			.expect((res) => {
-				const users = res.body as UserSchema[]
-				existingUserId = users[0].id
+				const { data } = res.body as ApiResponse<UserSchema[]>
+				existingUserId = data[0].id
 			})
 	})
 
@@ -24,9 +24,9 @@ describe('User: E2E DELETE Tests', () => {
 			await request(app.getHttpServer())
 				.delete(API_ROUTES.USERS.BY_ID(existingUserId))
 				.expect((res) => {
-					const user = res.body as UserSchema
+					const { data } = res.body as ApiResponse<UserSchema>
 					expect(res.statusCode).toBe(200)
-					expect(userSchema.safeParse(user).success).toBe(true)
+					expect(userSchema.safeParse(data).success).toBe(true)
 				})
 		})
 	})
