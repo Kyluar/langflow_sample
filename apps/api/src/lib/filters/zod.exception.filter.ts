@@ -1,5 +1,5 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common'
-import { ZodError, z } from '@repo/schemas'
+import { ApiErrorResponse, ZodError, z } from '@repo/schemas'
 import { ZodValidationException } from 'nestjs-zod'
 
 @Catch(ZodValidationException)
@@ -14,6 +14,6 @@ export class ZodValidationExceptionFilter implements ExceptionFilter {
 			statusCode: status,
 			message: 'Validação falhou',
 			errors: z.flattenError(error)
-		})
+		} as ApiErrorResponse<unknown>)
 	}
 }

@@ -1,5 +1,5 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common'
-import { ZodError, z } from '@repo/schemas'
+import { ApiErrorResponse, ZodError, z } from '@repo/schemas'
 import { ZodSerializationException } from 'nestjs-zod'
 
 @Catch(ZodSerializationException)
@@ -13,9 +13,9 @@ export class ZodSerializationExceptionFilter implements ExceptionFilter {
 		response.status(status).json({
 			statusCode: status,
 			message: 'Erro ao processar a resposta do servidor',
-			errors: z.flattenError(error).formErrors[0],
+			error: z.flattenError(error).formErrors[0],
 			suggestion:
 				'Verifique se o retorno da rota está alinhado com o schema esperado'
-		})
+		} as ApiErrorResponse<unknown>)
 	}
 }
