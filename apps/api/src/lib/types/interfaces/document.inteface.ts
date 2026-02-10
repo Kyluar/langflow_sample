@@ -1,5 +1,5 @@
 import type { Prisma } from '@repo/database'
-import type { DocumentSchema } from '@repo/schemas'
+import type { ApiResponse, DocumentSchema } from '@repo/schemas'
 import type { CreateDocumentDto, UpdateDocumentDto } from '../dto/document.dto'
 
 export type GetDocumentsParams = {
@@ -39,9 +39,12 @@ export interface IDocumentService {
 }
 
 export interface IDocumentController {
-	getDocuments(): Promise<DocumentSchema[]>
-	createDocument(data: CreateDocumentDto): Promise<DocumentSchema>
-	getDocumentById(id: string): Promise<DocumentSchema>
-	updateDocument(id: string, data: UpdateDocumentDto): Promise<DocumentSchema>
-	deleteDocument(id: string): Promise<DocumentSchema>
+	getDocuments(): Promise<ApiResponse<DocumentSchema[]>>
+	createDocument(data: CreateDocumentDto): Promise<ApiResponse<DocumentSchema>>
+	getDocumentById(id: string): Promise<ApiResponse<DocumentSchema>>
+	updateDocument(
+		id: string,
+		data: UpdateDocumentDto
+	): Promise<ApiResponse<DocumentSchema>>
+	deleteDocument(id: string): Promise<ApiResponse<DocumentSchema>>
 }

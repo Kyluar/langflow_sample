@@ -3,13 +3,14 @@ import {
 	Controller,
 	Delete,
 	Get,
+	HttpStatus,
 	Param,
 	ParseUUIDPipe,
 	Patch,
 	Post
 } from '@nestjs/common'
 import { RESOURCES } from '@repo/constants'
-import { DocumentSchema } from '@repo/schemas'
+import { ApiResponse, DocumentSchema } from '@repo/schemas'
 import {
 	CreateDocumentDto,
 	UpdateDocumentDto
@@ -21,45 +22,67 @@ export class DocumentController {
 	constructor(private readonly service: DocumentService) {}
 
 	@Get(':id')
-	getDocumentById(
+	async getDocumentById(
 		@Param('id', ParseUUIDPipe) id: string
-	): Promise<DocumentSchema> {
-		return this.service.getDocumentById(id)
+	): Promise<ApiResponse<DocumentSchema>> {
+		const result = await this.service.getDocumentById(id)
+		return {
+			statusCode: HttpStatus.OK,
+			data: result
+		}
 	}
 
 	@Get('/title/:title')
-	getDocumentByTitle(
+	async getDocumentByTitle(
 		@Param('title') title: string
-	): Promise<DocumentSchema> {
-		return this.service.getDocumentByTitle(title)
+	): Promise<ApiResponse<DocumentSchema>> {
+		const result = await this.service.getDocumentByTitle(title)
+		return {
+			statusCode: HttpStatus.OK,
+			data: result
+		}
 	}
 
 	@Get()
-	getDocuments(): Promise<DocumentSchema[]> {
-		return this.service.getDocuments()
+	async getDocuments(): Promise<ApiResponse<DocumentSchema[]>> {
+		const result = await this.service.getDocuments()
+		return {
+			statusCode: HttpStatus.OK,
+			data: result
+		}
 	}
 
 	@Post()
-	// @ZodResponse({ type: DocumentDto }): Causes error with zod v4
-	createDocument(
+	async createDocument(
 		@Body() documentData: CreateDocumentDto
-	): Promise<DocumentSchema> {
-		return this.service.createDocument(documentData)
+	): Promise<ApiResponse<DocumentSchema>> {
+		const result = await this.service.createDocument(documentData)
+		return {
+			statusCode: HttpStatus.CREATED,
+			data: result
+		}
 	}
 
 	@Patch(':id')
-	// @ZodResponse({ type: DocumentDto }): Causes error with zod v4
-	updateDocument(
+	async updateDocument(
 		@Param('id', ParseUUIDPipe) id: string,
 		@Body() data: UpdateDocumentDto
-	): Promise<DocumentSchema> {
-		return this.service.updateDocumentById(id, data)
+	): Promise<ApiResponse<DocumentSchema>> {
+		const result = await this.service.updateDocumentById(id, data)
+		return {
+			statusCode: HttpStatus.OK,
+			data: result
+		}
 	}
 
 	@Delete(':id')
-	deleteDocument(
+	async deleteDocument(
 		@Param('id', ParseUUIDPipe) id: string
-	): Promise<DocumentSchema> {
-		return this.service.deleteDocumentById(id)
+	): Promise<ApiResponse<DocumentSchema>> {
+		const result = await this.service.deleteDocumentById(id)
+		return {
+			statusCode: HttpStatus.OK,
+			data: result
+		}
 	}
 }
