@@ -1,5 +1,4 @@
 import type { DataType } from '../common/common.types.js'
-
 export type ApiError = {
 	type: string
 	message: string
@@ -10,6 +9,10 @@ export type ApiErrorResponse =
 	| Record<'error', ApiError>
 	| Record<'errors', ApiError[]>
 
-export type ApiResponse<T extends DataType> = {
+export type ApiSuccessResponse<T extends DataType> = {
 	data: T
 }
+
+export type ApiResponse<T extends DataType> =
+	| ApiSuccessResponse<T>
+	| ApiErrorResponse

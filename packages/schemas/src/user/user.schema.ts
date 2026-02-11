@@ -1,6 +1,6 @@
 import type { Prisma } from '@repo/database'
 import { z } from 'zod'
-import type { ApiResponse } from '../api/api.response.types.js'
+import type { ApiSuccessResponse } from '../api/api.response.types.js'
 
 export const createUserSchema = z.strictObject({
 	email: z.email(),
@@ -16,7 +16,7 @@ export const userSchema = z.strictObject({
 
 export const userResponseSchema = z.strictObject({
 	data: userSchema
-}) satisfies z.ZodType<ApiResponse<Prisma.UserModel>>
+}) satisfies z.ZodType<ApiSuccessResponse<Prisma.UserModel>>
 
 export type UserSchema = z.infer<typeof userSchema>
 export type UserResponseSchema = z.infer<typeof userResponseSchema>

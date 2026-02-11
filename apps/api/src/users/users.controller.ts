@@ -9,7 +9,7 @@ import {
 	Post
 } from '@nestjs/common'
 import { RESOURCES } from '@repo/constants'
-import { ApiResponse, UserSchema } from '@repo/schemas'
+import { ApiSuccessResponse, UserSchema } from '@repo/schemas'
 import { ZodResponse } from 'nestjs-zod'
 import {
 	CreateUserDto,
@@ -26,14 +26,14 @@ export class UsersController implements IUserController {
 	@Get(':id')
 	async getUserById(
 		@Param('id', ParseUUIDPipe) id: string
-	): Promise<ApiResponse<UserSchema>> {
+	): Promise<ApiSuccessResponse<UserSchema>> {
 		return {
 			data: await this.service.getUserById(id)
 		}
 	}
 
 	@Get()
-	async getUsers(): Promise<ApiResponse<UserSchema[]>> {
+	async getUsers(): Promise<ApiSuccessResponse<UserSchema[]>> {
 		return {
 			data: await this.service.getUsers()
 		}
@@ -43,7 +43,7 @@ export class UsersController implements IUserController {
 	@ZodResponse({ type: UserDto })
 	async createUser(
 		@Body() userData: CreateUserDto
-	): Promise<ApiResponse<UserSchema>> {
+	): Promise<ApiSuccessResponse<UserSchema>> {
 		return {
 			data: await this.service.createUser(userData)
 		}
@@ -54,7 +54,7 @@ export class UsersController implements IUserController {
 	async updateUser(
 		@Param('id', ParseUUIDPipe) id: string,
 		@Body() data: UpdateUserDto
-	): Promise<ApiResponse<UserSchema>> {
+	): Promise<ApiSuccessResponse<UserSchema>> {
 		return {
 			data: await this.service.updateUserById(id, data)
 		}
@@ -63,7 +63,7 @@ export class UsersController implements IUserController {
 	@Delete(':id')
 	async deleteUser(
 		@Param('id', ParseUUIDPipe) id: string
-	): Promise<ApiResponse<UserSchema>> {
+	): Promise<ApiSuccessResponse<UserSchema>> {
 		return {
 			data: await this.service.deleteUserById(id)
 		}

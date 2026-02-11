@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common'
 import { API_ROUTES } from '@repo/constants'
 import {
-	ApiResponse,
+	ApiSuccessResponse,
 	CreateUserSchema,
 	UserSchema,
 	userSchema
@@ -25,7 +25,7 @@ describe('User: E2E PATCH Tests', () => {
 		await request(app.getHttpServer())
 			.get(API_ROUTES.USERS.BASE)
 			.expect((res) => {
-				const { data } = res.body as ApiResponse<UserSchema[]>
+				const { data } = res.body as ApiSuccessResponse<UserSchema[]>
 				existingUserId = data[0].id
 				duplicatedEmail = data[1].email
 			})
@@ -37,7 +37,7 @@ describe('User: E2E PATCH Tests', () => {
 				.patch(API_ROUTES.USERS.BY_ID(existingUserId))
 				.send(validUserData)
 				.expect((res) => {
-					const { data } = res.body as ApiResponse<UserSchema>
+					const { data } = res.body as ApiSuccessResponse<UserSchema>
 					expect(res.statusCode).toBe(200)
 					expect(userSchema.safeParse(data).success).toBe(true)
 					expect(data.id).toBe(existingUserId)

@@ -1,6 +1,6 @@
 import type { Prisma } from '@repo/database'
 import { z } from 'zod'
-import type { ApiResponse } from '../api/api.response.types.js'
+import type { ApiSuccessResponse } from '../api/api.response.types.js'
 
 export const createDocumentSchema = z.strictObject({
 	title: z.string(),
@@ -17,9 +17,8 @@ export const documentSchema = z.strictObject({
 }) satisfies z.ZodType<Prisma.DocumentModel>
 
 export const documentResponseSchema = z.strictObject({
-	statusCode: z.number(),
 	data: documentSchema
-}) satisfies z.ZodType<ApiResponse<Prisma.DocumentModel>>
+}) satisfies z.ZodType<ApiSuccessResponse<Prisma.DocumentModel>>
 
 export type DocumentSchema = z.infer<typeof documentSchema>
 export type DocumentResponseSchema = z.infer<typeof documentResponseSchema>

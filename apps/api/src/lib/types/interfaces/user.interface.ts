@@ -1,5 +1,5 @@
 import type { Prisma } from '@repo/database'
-import type { ApiResponse, UserSchema } from '@repo/schemas'
+import type { ApiSuccessResponse, UserSchema } from '@repo/schemas'
 import type { CreateUserDto, UpdateUserDto } from '../dto/user.dto'
 
 export type GetUsersParams = {
@@ -32,9 +32,12 @@ export interface IUserService {
 }
 
 export interface IUserController {
-	getUsers(): Promise<ApiResponse<UserSchema[]>>
-	createUser(userData: CreateUserDto): Promise<ApiResponse<UserSchema>>
-	getUserById(id: string): Promise<ApiResponse<UserSchema>>
-	updateUser(id: string, data: UpdateUserDto): Promise<ApiResponse<UserSchema>>
-	deleteUser(id: string): Promise<ApiResponse<UserSchema>>
+	getUsers(): Promise<ApiSuccessResponse<UserSchema[]>>
+	createUser(userData: CreateUserDto): Promise<ApiSuccessResponse<UserSchema>>
+	getUserById(id: string): Promise<ApiSuccessResponse<UserSchema>>
+	updateUser(
+		id: string,
+		data: UpdateUserDto
+	): Promise<ApiSuccessResponse<UserSchema>>
+	deleteUser(id: string): Promise<ApiSuccessResponse<UserSchema>>
 }

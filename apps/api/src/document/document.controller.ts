@@ -9,7 +9,7 @@ import {
 	Post
 } from '@nestjs/common'
 import { RESOURCES } from '@repo/constants'
-import { ApiResponse, DocumentSchema } from '@repo/schemas'
+import { ApiSuccessResponse, DocumentSchema } from '@repo/schemas'
 import {
 	CreateDocumentDto,
 	UpdateDocumentDto
@@ -23,7 +23,7 @@ export class DocumentController {
 	@Get(':id')
 	async getDocumentById(
 		@Param('id', ParseUUIDPipe) id: string
-	): Promise<ApiResponse<DocumentSchema>> {
+	): Promise<ApiSuccessResponse<DocumentSchema>> {
 		const result = await this.service.getDocumentById(id)
 		return {
 			data: result
@@ -33,7 +33,7 @@ export class DocumentController {
 	@Get('/title/:title')
 	async getDocumentByTitle(
 		@Param('title') title: string
-	): Promise<ApiResponse<DocumentSchema>> {
+	): Promise<ApiSuccessResponse<DocumentSchema>> {
 		const result = await this.service.getDocumentByTitle(title)
 		return {
 			data: result
@@ -41,7 +41,7 @@ export class DocumentController {
 	}
 
 	@Get()
-	async getDocuments(): Promise<ApiResponse<DocumentSchema[]>> {
+	async getDocuments(): Promise<ApiSuccessResponse<DocumentSchema[]>> {
 		const result = await this.service.getDocuments()
 		return {
 			data: result
@@ -49,9 +49,10 @@ export class DocumentController {
 	}
 
 	@Post()
+	// ZodResponse({ type: DocumentDto }) This feature is currently disabled due to issues with SwaggerApi and Zod integration
 	async createDocument(
 		@Body() documentData: CreateDocumentDto
-	): Promise<ApiResponse<DocumentSchema>> {
+	): Promise<ApiSuccessResponse<DocumentSchema>> {
 		const result = await this.service.createDocument(documentData)
 		return {
 			data: result
@@ -59,10 +60,11 @@ export class DocumentController {
 	}
 
 	@Patch(':id')
+	// ZodResponse({ type: DocumentDto }) This feature is currently disabled due to issues with SwaggerApi and Zod integration
 	async updateDocument(
 		@Param('id', ParseUUIDPipe) id: string,
 		@Body() data: UpdateDocumentDto
-	): Promise<ApiResponse<DocumentSchema>> {
+	): Promise<ApiSuccessResponse<DocumentSchema>> {
 		const result = await this.service.updateDocumentById(id, data)
 		return {
 			data: result
@@ -72,7 +74,7 @@ export class DocumentController {
 	@Delete(':id')
 	async deleteDocument(
 		@Param('id', ParseUUIDPipe) id: string
-	): Promise<ApiResponse<DocumentSchema>> {
+	): Promise<ApiSuccessResponse<DocumentSchema>> {
 		const result = await this.service.deleteDocumentById(id)
 		return {
 			data: result
