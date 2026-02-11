@@ -3,7 +3,6 @@ import {
 	Controller,
 	Delete,
 	Get,
-	HttpStatus,
 	Param,
 	ParseUUIDPipe,
 	Patch,
@@ -29,16 +28,14 @@ export class UsersController implements IUserController {
 		@Param('id', ParseUUIDPipe) id: string
 	): Promise<ApiResponse<UserSchema>> {
 		return {
-			data: await this.service.getUserById(id),
-			statusCode: HttpStatus.OK
+			data: await this.service.getUserById(id)
 		}
 	}
 
 	@Get()
 	async getUsers(): Promise<ApiResponse<UserSchema[]>> {
 		return {
-			data: await this.service.getUsers(),
-			statusCode: HttpStatus.OK
+			data: await this.service.getUsers()
 		}
 	}
 
@@ -48,8 +45,7 @@ export class UsersController implements IUserController {
 		@Body() userData: CreateUserDto
 	): Promise<ApiResponse<UserSchema>> {
 		return {
-			data: await this.service.createUser(userData),
-			statusCode: HttpStatus.CREATED
+			data: await this.service.createUser(userData)
 		}
 	}
 
@@ -60,8 +56,7 @@ export class UsersController implements IUserController {
 		@Body() data: UpdateUserDto
 	): Promise<ApiResponse<UserSchema>> {
 		return {
-			data: await this.service.updateUserById(id, data),
-			statusCode: HttpStatus.OK
+			data: await this.service.updateUserById(id, data)
 		}
 	}
 
@@ -70,8 +65,7 @@ export class UsersController implements IUserController {
 		@Param('id', ParseUUIDPipe) id: string
 	): Promise<ApiResponse<UserSchema>> {
 		return {
-			data: await this.service.deleteUserById(id),
-			statusCode: HttpStatus.OK
+			data: await this.service.deleteUserById(id)
 		}
 	}
 }

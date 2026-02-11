@@ -15,7 +15,6 @@ export const userSchema = z.strictObject({
 }) satisfies z.ZodType<Prisma.UserModel>
 
 export const userResponseSchema = z.strictObject({
-	statusCode: z.number(),
 	data: userSchema
 }) satisfies z.ZodType<ApiResponse<Prisma.UserModel>>
 

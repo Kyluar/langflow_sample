@@ -8,9 +8,17 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
 	catch(exception: Prisma.PrismaClientKnownRequestError, host: ArgumentsHost) {
 		const ctx = host.switchToHttp()
 		const response = ctx.getResponse()
-		const excepRes: ApiErrorResponse<unknown> =
-			generatePrismaExceptionResponse(exception)
 
-		response.status(excepRes.statusCode).json(excepRes)
+		const { statusCode, ...prismaEx } =
+			generatePrismaExceptionResponse(exception)
+		const error: ApiErrorResponse = {
+			error: {
+				type: 'PrismaException',
+				message: prismaEx.message,
+				details: `PrismaCode (${prismaEx.prismaCode})`
+			}
+		}
+
+		response.status(statusCode).json(error)
 	}
 }

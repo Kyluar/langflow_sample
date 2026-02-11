@@ -3,7 +3,6 @@ import {
 	Controller,
 	Delete,
 	Get,
-	HttpStatus,
 	Param,
 	ParseUUIDPipe,
 	Patch,
@@ -27,7 +26,6 @@ export class DocumentController {
 	): Promise<ApiResponse<DocumentSchema>> {
 		const result = await this.service.getDocumentById(id)
 		return {
-			statusCode: HttpStatus.OK,
 			data: result
 		}
 	}
@@ -38,7 +36,6 @@ export class DocumentController {
 	): Promise<ApiResponse<DocumentSchema>> {
 		const result = await this.service.getDocumentByTitle(title)
 		return {
-			statusCode: HttpStatus.OK,
 			data: result
 		}
 	}
@@ -47,7 +44,6 @@ export class DocumentController {
 	async getDocuments(): Promise<ApiResponse<DocumentSchema[]>> {
 		const result = await this.service.getDocuments()
 		return {
-			statusCode: HttpStatus.OK,
 			data: result
 		}
 	}
@@ -58,7 +54,6 @@ export class DocumentController {
 	): Promise<ApiResponse<DocumentSchema>> {
 		const result = await this.service.createDocument(documentData)
 		return {
-			statusCode: HttpStatus.CREATED,
 			data: result
 		}
 	}
@@ -70,7 +65,6 @@ export class DocumentController {
 	): Promise<ApiResponse<DocumentSchema>> {
 		const result = await this.service.updateDocumentById(id, data)
 		return {
-			statusCode: HttpStatus.OK,
 			data: result
 		}
 	}
@@ -81,7 +75,6 @@ export class DocumentController {
 	): Promise<ApiResponse<DocumentSchema>> {
 		const result = await this.service.deleteDocumentById(id)
 		return {
-			statusCode: HttpStatus.OK,
 			data: result
 		}
 	}

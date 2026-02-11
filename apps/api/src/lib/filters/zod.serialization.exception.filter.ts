@@ -8,14 +8,15 @@ export class ZodSerializationExceptionFilter implements ExceptionFilter {
 		const ctx = host.switchToHttp()
 		const response = ctx.getResponse()
 		const status = exception.getStatus()
-		const error: ZodError = exception.getZodError() as ZodError
+		const zodErr: ZodError = exception.getZodError() as ZodError
+		const error: ApiErrorResponse = {
+			error: {
+				type: 'SerializationException',
+				message: 'Erro ao processar a resposta do servidor',
+				details: z.flattenError(zodErr).formErrors[0]
+			}
+		}
 
-		response.status(status).json({
-			statusCode: status,
-			message: 'Erro ao processar a resposta do servidor',
-			error: z.flattenError(error).formErrors[0],
-			suggestion:
-				'Verifique se o retorno da rota está alinhado com o schema esperado'
-		} as ApiErrorResponse<unknown>)
+		response.status(status).json(error)
 	}
 }
