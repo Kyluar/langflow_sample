@@ -1,15 +1,9 @@
-'use client'
-
+import { requestData } from '@/lib/api'
 import '@/styles/globals.css'
 import '@/styles/layout.css'
-
-import { useState } from 'react'
-
-import DocumentNav from '@/ui/components/document/DocumentNav'
-import Header from '@/ui/layout/Header'
-import Main from '@/ui/layout/Main'
-import SideNav from '@/ui/layout/SideNav'
-
+import DocumentLayoutPage from '@/ui/pages/DocumentLayout'
+import { RESOURCES } from '@repo/constants'
+import type { DocumentSchema } from '@repo/schemas'
 export const dynamic = 'force-dynamic'
 
 export default function RootLayout({
@@ -17,18 +11,14 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
-	const [open, setIsOpen] = useState(false)
+	const documentsPromise = requestData<DocumentSchema[]>(RESOURCES.DOCUMENTS)
 
 	return (
 		<html lang="pt-BR">
 			<body>
-				<Header setIsOpen={setIsOpen} />
-				<SideNav
-					className={`bg-gradient-to-b from-ctd-azul-01 to-ctd-azul-02 border-e-[1] border-white/50 ${open ? 'open' : ''}`}
-				>
-					<DocumentNav />
-				</SideNav>
-				<Main>{children}</Main>
+				<DocumentLayoutPage documentsPromise={documentsPromise}>
+					{children}
+				</DocumentLayoutPage>
 			</body>
 		</html>
 	)

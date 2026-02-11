@@ -1,16 +1,13 @@
 'use client'
 
-import useApiResponse from '@/lib/hooks/useApiResponse'
-import type { ApiResponse, DocumentSchema } from '@repo/schemas'
+import type { DocumentSchema } from '@repo/schemas'
 import Link from 'next/link'
 
 export default function DocumentList({
-	documentsPromise
+	documents
 }: {
-	documentsPromise: Promise<ApiResponse<DocumentSchema[]>>
+	documents: DocumentSchema[]
 }) {
-	const documents = useApiResponse(documentsPromise) || []
-
 	if (documents.length === 0) {
 		return <p>Nenhum documento encontrado.</p>
 	}
