@@ -6,6 +6,9 @@ import { DocumentListSkeleton } from './_components/DocumentListSkeleton'
 import { SidebarWrapper } from './_components/SidebarWrapper'
 import { ToasterContext } from './_components/ToasterProvider'
 import './globals.css'
+import { RESOURCES } from '@repo/constants'
+import type { DocumentSchema } from '@repo/schemas'
+import { requestData } from './_api'
 export const dynamic = 'force-dynamic'
 
 export default async function RootLayout({
@@ -13,6 +16,8 @@ export default async function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
+	const documentsPromise = requestData<DocumentSchema[]>(RESOURCES.DOCUMENTS)
+
 	return (
 		<html lang="pt-BR">
 			<body className="flex h-screen overflow-hidden font-sans bg-ctd-fundo">
@@ -30,7 +35,7 @@ export default async function RootLayout({
 						</h1>
 
 						<Suspense fallback={<DocumentListSkeleton />}>
-							<DocumentList />
+							<DocumentList documentsPromise={documentsPromise} />
 						</Suspense>
 						<CreateDocButton />
 					</header>
