@@ -1,21 +1,41 @@
 'use server'
 
-import type { CreateDocumentSchema, DocumentSchema } from "@repo/schemas";
-import { createDocumentSchema } from "@repo/schemas";
-import { revalidatePath } from "next/cache";
-import api from "../config/axios";
-import { RESOURCES } from "@repo/constants";
+import { RESOURCES } from '@repo/constants'
+import type {
+	CreateDocumentSchema,
+	DataType,
+	DocumentSchema
+} from '@repo/schemas'
+import { revalidatePath } from 'next/cache'
+import { apiSendRequest } from '../api'
 
-export async function createDocAction(data: CreateDocumentSchema) {
-    try {
-        const validatedData = createDocumentSchema.parse(data);
+type ActionReturn<T extends DataType> = {
+	message: string
+	data: T | null
+}
 
-        const res = await api.post<DocumentSchema>(`/${RESOURCES.DOCUMENTS}`, validatedData);
+export async function createDocAction(
+	data: CreateDocumentSchema,
+	successMessage: string
+): Promise<ActionReturn<DocumentSchema>> {
+	const actionReturn: ActionReturn<DocumentSchema> = {
+		data: null,
+		message: successMessage
+	}
 
-        revalidatePath('/', 'layout');
-        return { success: true, message: 'Documento criado com sucesso!', title: res.data.title };
-    } catch (error: unknown) {
-        const message = error instanceof Error ? error.message : "Erro ao criar documento.";
-        return { success: false, message };
-    }
+	const apiRes = await apiSendRequest<DocumentSchema, CreateDocumentSchema>(
+		`/${RESOURCES.DOCUMENTS}`,
+		data
+	)
+
+	if ('error' in apiRes) actionReturn.message = apiRes.error.message
+	if ('errors' in apiRes)
+		// biome-ignore lint/style/noNonNullAssertion: Just ignore Biome here
+		actionReturn.message = apiRes.errors[0]!.message
+
+	if ('data' in apiRes) {
+		revalidatePath('/', 'layout')
+		actionReturn.data = apiRes.data
+	}
+	return actionReturn
 }

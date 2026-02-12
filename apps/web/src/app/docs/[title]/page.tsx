@@ -1,8 +1,8 @@
-import { requestData } from '@/lib/api'
-import Document from '@/ui/components/document/Documents'
 import { RESOURCES } from '@repo/constants'
 import type { DocumentSchema } from '@repo/schemas'
 import { Suspense } from 'react'
+import { apiRequest } from '@/lib/api'
+import Document from '@/ui/components/document/Documents'
 
 export default async function DocPage({
 	params
@@ -11,7 +11,7 @@ export default async function DocPage({
 }) {
 	const { title } = await params
 
-	const documentPromise = requestData<DocumentSchema>(
+	const documentPromise = apiRequest<DocumentSchema>(
 		`/${RESOURCES.DOCUMENTS}/title/${decodeURIComponent(title)}`
 	)
 
