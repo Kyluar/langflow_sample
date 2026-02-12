@@ -3,8 +3,8 @@ import { z } from 'zod'
 import type { ApiSuccessResponse } from '../api/api.response.types.js'
 
 export const createDocumentSchema = z.strictObject({
-	title: z.string(),
-	content: z.string()
+	title: z.string().trim().nonempty().max(50),
+	content: z.string().trim()
 }) satisfies z.ZodType<Prisma.DocumentCreateInput>
 
 export const updateDocumentSchema = createDocumentSchema.partial()
