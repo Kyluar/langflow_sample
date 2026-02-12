@@ -1,9 +1,11 @@
-import { requestData } from '@/lib/api'
+import { apiRequest } from '@/lib/api'
 import '@/styles/globals.css'
 import '@/styles/layout.css'
-import DocumentLayoutPage from '@/ui/pages/DocumentLayout'
 import { RESOURCES } from '@repo/constants'
 import type { DocumentSchema } from '@repo/schemas'
+import CustomToaster from '@/ui/components/CustomToaster'
+import DocumentLayoutPage from '@/ui/pages/DocumentLayout'
+
 export const dynamic = 'force-dynamic'
 
 export default function RootLayout({
@@ -11,11 +13,12 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
-	const documentsPromise = requestData<DocumentSchema[]>(RESOURCES.DOCUMENTS)
+	const documentsPromise = apiRequest<DocumentSchema[]>(RESOURCES.DOCUMENTS)
 
 	return (
 		<html lang="pt-BR">
 			<body>
+				<CustomToaster />
 				<DocumentLayoutPage documentsPromise={documentsPromise}>
 					{children}
 				</DocumentLayoutPage>
