@@ -7,7 +7,7 @@ import type {
 	DocumentSchema
 } from '@repo/schemas'
 import { revalidatePath } from 'next/cache'
-import { apiSendRequest } from '../api'
+import { apiRequest } from '../api'
 
 type ActionReturn<T extends DataType> = {
 	message: string
@@ -23,7 +23,8 @@ export async function createDocAction(
 		message: successMessage
 	}
 
-	const apiRes = await apiSendRequest<DocumentSchema, CreateDocumentSchema>(
+	const apiRes = await apiRequest<DocumentSchema, CreateDocumentSchema>(
+		'post',
 		`/${RESOURCES.DOCUMENTS}`,
 		data
 	)
