@@ -44,6 +44,8 @@ services:
     hostname: web
     container_name: ctd-resource-web
     restart: always
+    env_file:
+      - ./apps/web/.env.production
     ports:
       - '3000:3000'
     depends_on:
