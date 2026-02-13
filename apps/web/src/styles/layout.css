@@ -59,9 +59,7 @@ body {
 	}
 
 	#web-sidenav {
-		top: 0;
 		position: fixed;
-		height: 100vh;
 		display: none;
 		&.open {
 			display: block;
@@ -69,11 +67,6 @@ body {
 	}
 
 	#web-header {
-		z-index: 1;
-		top: 0;
-		position: sticky;
-		grid-area: header;
-
 		> .sidenav-toggler {
 			display: inline-block;
 		}
