@@ -1,4 +1,4 @@
-import { apiRequest } from '@/lib/api'
+import { cachedApiRequest } from '@/lib/api'
 import '@/styles/globals.css'
 import '@/styles/layout.css'
 import { RESOURCES } from '@repo/constants'
@@ -12,9 +12,9 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
-	const documentsPromise = apiRequest<DocumentSchema[]>({
-		method: 'get',
-		url: RESOURCES.DOCUMENTS
+	const documentsPromise = cachedApiRequest<DocumentSchema[]>({
+		url: RESOURCES.DOCUMENTS,
+		tagsToCache: [RESOURCES.DOCUMENTS]
 	})
 
 	return (

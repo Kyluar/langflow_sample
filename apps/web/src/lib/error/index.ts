@@ -24,9 +24,8 @@ function handleApiError(err: unknown): ApiErrorResponse {
 		if (err.response) {
 			return err.response.data
 		}
-	} else {
-		console.error('asyncTryCatch:', err)
 	}
 
+	console.error('asyncTryCatch:', err)
 	return defaultErr
 }

@@ -1,9 +1,10 @@
 'use client'
+import { API_ROUTES, RESOURCES } from '@repo/constants'
+import type { DocumentSchema, UpdateDocumentSchema } from '@repo/schemas'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
-import { deleteDocAction } from '@/lib/actions/deleteDocAction'
-import { updateDocAction } from '@/lib/actions/updateDocAction'
+import { apiAction } from '@/lib/actions'
 import ConfirmWindow from './ConfirmWindow'
 
 export function MarkDownEditor({
@@ -24,39 +25,49 @@ export function MarkDownEditor({
 
 	async function saveDoc() {
 		setLoadingUpdate(true)
-		try {
-			await toast.promise(updateDocAction(docId, title, content), {
-				loading: 'Salvando alterações...',
-				success: (data) => {
-					if (!data.success) throw new Error(data.message as string)
-					return data.message || 'Alterações salvas com sucesso!'
-				},
-				error: (err) => err.message || 'Erro ao salvar alterações.'
-			})
+		const actionPromise = apiAction<DocumentSchema, UpdateDocumentSchema>({
+			method: 'patch',
+			url: API_ROUTES.DOCUMENTS.BY_ID(docId),
+			data: { title, content },
+			successMessage: 'Documento alterado com sucesso!',
+			tags: [RESOURCES.DOCUMENTS]
+		})
+
+		const { data, message } = await toast.promise(actionPromise, {
+			loading: 'Salvando alterações...'
+		})
+
+		if (data) {
+			toast.success(message)
 			onSaveSuccess()
-		} catch (error: unknown) {
-			console.error(error)
-		} finally {
-			setLoadingUpdate(false)
+		} else {
+			toast.error(message)
 		}
+
+		setLoadingUpdate(false)
 	}
 
 	async function deleteDoc() {
 		setLoadingDelete(true)
-		router.push('/')
-		try {
-			await toast.promise(deleteDocAction(docId), {
-				loading: 'Excluindo documento...',
-				success: (data) => {
-					return data.message || 'Criado com sucesso!'
-				},
-				error: (err) => err.message || 'Erro ao criar documento.'
-			})
-		} catch (error: unknown) {
-			console.error(error)
-		} finally {
-			setLoadingDelete(false)
+		const actionPromise = apiAction<DocumentSchema>({
+			method: 'delete',
+			url: API_ROUTES.DOCUMENTS.BY_ID(docId),
+			successMessage: 'Documento excluído com sucesso!',
+			tags: [RESOURCES.DOCUMENTS]
+		})
+
+		const { data, message } = await toast.promise(actionPromise, {
+			loading: 'Excluindo documento...'
+		})
+
+		if (data) {
+			toast.success(message)
+			router.push('/')
+		} else {
+			toast.error(message)
 		}
+
+		setLoadingDelete(false)
 	}
 
 	function confirmDelete() {

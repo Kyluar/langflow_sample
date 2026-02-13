@@ -1,11 +1,12 @@
 'use client'
 
-import { createDocAction } from '@/lib/actions/createDocAction'
-import type { CreateDocumentSchema } from '@repo/schemas'
+import { RESOURCES } from '@repo/constants'
+import type { CreateDocumentSchema, DocumentSchema } from '@repo/schemas'
 import { Button } from '@repo/ui/button'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
+import { apiAction } from '@/lib/actions'
 
 export function CreateDocButton() {
 	const [isOpen, setIsOpen] = useState(false)
@@ -19,10 +20,13 @@ export function CreateDocButton() {
 
 	async function handleCreate() {
 		setLoading(true)
-		const actionPromise = createDocAction(
-			formData,
-			'Document criado com successo!'
-		)
+		const actionPromise = apiAction<DocumentSchema, CreateDocumentSchema>({
+			method: 'post',
+			url: RESOURCES.DOCUMENTS,
+			data: formData,
+			successMessage: 'Document criado com successo!',
+			tags: [RESOURCES.DOCUMENTS]
+		})
 		const { data, message } = await toast.promise(actionPromise, {
 			loading: 'Criando documento...'
 		})
