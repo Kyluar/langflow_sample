@@ -28,7 +28,7 @@ export type GenerateDatabaseUrlOutput = z.output<typeof transformDatabaseUrl>
 
 export const apiEnvSchema = z.object({
 	NODE_ENV: nodeEnv,
-	PORT: z.coerce.number(),
+	API_PORT: z.coerce.number(),
 	DATABASE_URL: z.string()
 })
 

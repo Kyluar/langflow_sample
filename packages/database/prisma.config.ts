@@ -1,9 +1,11 @@
-import path from 'node:path'
 import { config } from 'dotenv'
+import path from 'node:path'
 import { generateDatabaseUrl } from './src/lib/utils'
 
-if (!process.env.POSTGRES_HOST) {
-	config({ path: path.resolve(import.meta.dirname, '../../.env.database') })
+if (!process.env.NODE_ENV) {
+	config({
+		path: path.resolve(import.meta.dirname, `../../.env.database.development`)
+	})
 }
 
 import 'dotenv/config'

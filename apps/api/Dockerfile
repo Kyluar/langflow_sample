@@ -17,8 +17,6 @@ RUN pnpm install --frozen-lockfile
 FROM base AS builder
 COPY --from=installer /app/ .
 COPY --from=pruner /app/out/full .
-COPY --from=pruner /app/.env.database ./.env.database
-COPY --from=pruner /app/.env.database.test ./.env.test
 
 RUN pnpm db:generate
 

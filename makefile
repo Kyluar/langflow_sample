@@ -1,6 +1,8 @@
 .PHONY: fresh-build build up start stop remove logs clean help build-api build-web
 
-BASE := docker-compose -f docker-compose.yml
+DATABASE_ENV_PATH := .env.database.production
+API_ENV_PATH := ./apps/api/.env.production
+BASE := docker-compose --env-file $(DATABASE_ENV_PATH) --env-file $(API_ENV_PATH) -f docker-compose.yml
 
 fresh-build:
 	$(BASE) build --no-cache

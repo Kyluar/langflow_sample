@@ -1,5 +1,5 @@
 // biome-ignore-all lint/correctness/useHookAtTopLevel: Conflict
-import { join } from 'node:path'
+
 import { ConfigService } from '@nestjs/config'
 import { HttpAdapterHost, NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
@@ -9,6 +9,7 @@ import {
 	SwaggerModule
 } from '@nestjs/swagger'
 import { cleanupOpenApiDoc } from 'nestjs-zod'
+import { join } from 'node:path'
 import { AppModule } from './app.module'
 import {
 	PrismaClientExceptionFilter,
@@ -21,7 +22,7 @@ async function bootstrap() {
 	app.useStaticAssets(join(__dirname, '..', 'public'))
 
 	const { httpAdapter } = app.get(HttpAdapterHost)
-	const PORT = app.get(ConfigService).getOrThrow('PORT')
+	const PORT = app.get(ConfigService).getOrThrow('API_PORT')
 
 	const config = new DocumentBuilder()
 		.setTitle('CTD Resource API')

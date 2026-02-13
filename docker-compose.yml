@@ -4,9 +4,9 @@ services:
     hostname: db
     container_name: ctd-resource-db
     restart: always
-    env_file: .env.database
+    env_file: .env.database.production
     ports:
-      - '5432:5432'
+      - "${POSTGRES_PORT:-5432}:5432"
     networks:
       - ctd-resource-network
     healthcheck:
@@ -25,10 +25,10 @@ services:
     container_name: ctd-resource-api
     restart: always
     env_file:
-      - .env.database
+      - .env.database.production
       - ./apps/api/.env.production
     ports:
-      - '3001:3001'
+      - "${API_PORT:-3001}:3001"
     depends_on:
       ctd-resource-db:
         condition: service_healthy
