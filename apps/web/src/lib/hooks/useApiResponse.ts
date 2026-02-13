@@ -1,7 +1,7 @@
 'use client'
 
 import type { ApiResponse, DataType } from '@repo/schemas'
-import { use } from 'react'
+import { use, useEffect } from 'react'
 import toast from 'react-hot-toast'
 
 export default function useApiResponse<T extends DataType>(
@@ -9,9 +9,16 @@ export default function useApiResponse<T extends DataType>(
 ): T | null {
 	const res = use(apiResponsePromise)
 
+	useEffect(() => {
+		if ('error' in res) {
+			toast.error(res.error.message)
+		}
+		if ('errors' in res) {
+			res.errors.map((e) => toast.error(e.message))
+		}
+	}, [res])
+
 	if ('data' in res) return res.data
-	if ('error' in res) toast.error(res.error.message)
-	if ('errors' in res) res.errors.map((e) => toast.error(e.message))
 
 	return null
 }
