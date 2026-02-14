@@ -1,5 +1,5 @@
+import { z } from '@repo/config'
 import type { Prisma } from '@repo/database'
-import { z } from 'zod'
 import type { ApiSuccessResponse } from '../api/api.response.types.js'
 
 export const createUserSchema = z.strictObject({

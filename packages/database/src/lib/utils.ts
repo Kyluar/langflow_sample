@@ -1,17 +1,5 @@
 import type { Prisma, PrismaClient } from '../generated/prisma/client.js'
 
-export function generateDatabaseUrl(): string {
-	const {
-		POSTGRES_USER,
-		POSTGRES_PASSWORD,
-		POSTGRES_HOST,
-		POSTGRES_DB,
-		POSTGRES_DB_SCHEMA
-	} = process.env
-
-	return `postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}?schema=${POSTGRES_DB_SCHEMA}`
-}
-
 type SeedDatabaseParams = {
 	prisma: PrismaClient
 	models: {

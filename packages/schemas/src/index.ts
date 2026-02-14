@@ -1,7 +1,5 @@
-export { ZodError } from 'zod'
+export * from '@repo/config'
 export * from './api/api.response.types.js'
 export * from './common/common.types.js'
-export * from './config/env.js'
 export * from './document/document.schema.js'
 export * from './user/user.schema.js'
-export { z } from './zod/zod.config.js'

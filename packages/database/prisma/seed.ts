@@ -1,9 +1,10 @@
 import { PrismaPg } from '@prisma/adapter-pg'
+import { transformDatabaseUrl } from '@repo/config'
 import { PrismaClient } from '../src/generated/prisma/client'
 import { seedDocuments, seedUsers } from '../src/lib/seed/data'
-import { generateDatabaseUrl, seedDatabase } from '../src/lib/utils'
+import { seedDatabase } from '../src/lib/utils'
 
-const connectionString = generateDatabaseUrl()
+const connectionString = transformDatabaseUrl.parse(process.env)
 const schema = process.env.POSTGRES_DB_SCHEMA
 const adapter = new PrismaPg({ connectionString }, { schema })
 const prisma = new PrismaClient({ adapter })

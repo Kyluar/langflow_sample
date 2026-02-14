@@ -185,6 +185,22 @@ importers:
         specifier: 5.9.2
         version: 5.9.2
 
+  packages/config:
+    dependencies:
+      zod:
+        specifier: ^4.3.6
+        version: 4.3.6
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:^
+        version: link:../typescript-config
+      '@types/node':
+        specifier: ^25.0.10
+        version: 25.0.10
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
   packages/constants:
     devDependencies:
       '@repo/typescript-config':
@@ -212,6 +228,9 @@ importers:
         specifier: ^8.17.1
         version: 8.17.1
     devDependencies:
+      '@repo/config':
+        specifier: workspace:^
+        version: link:../config
       '@repo/typescript-config':
         specifier: workspace:^
         version: link:../typescript-config
@@ -236,9 +255,9 @@ importers:
 
   packages/schemas:
     dependencies:
-      zod:
-        specifier: ^4.3.6
-        version: 4.3.6
+      '@repo/config':
+        specifier: workspace:^
+        version: link:../config
     devDependencies:
       '@repo/database':
         specifier: workspace:^

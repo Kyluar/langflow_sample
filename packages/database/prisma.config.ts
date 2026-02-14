@@ -1,7 +1,9 @@
+import { transformDatabaseUrl } from '@repo/config'
 import { defineConfig } from 'prisma/config'
-import { generateDatabaseUrl } from './src/lib/utils'
 
-const DATABASE_URL = generateDatabaseUrl()
+const DATABASE_URL = process.env.POSTGRES_HOST
+	? transformDatabaseUrl.parse(process.env)
+	: ''
 
 export default defineConfig({
 	schema: 'prisma/schema.prisma',

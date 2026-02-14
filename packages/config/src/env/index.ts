@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from '../zod/index.js'
 
 const nodeEnv = z.literal(['development', 'production', 'test'])
 
