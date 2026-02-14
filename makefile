@@ -1,4 +1,4 @@
-.PHONY: fresh-build build up start stop remove logs clean help build-api build-web
+.PHONY: fresh-build build up start stop remove logs clean help fresh-api-build fresh-web-build api-build web-build
 
 DATABASE_ENV_PATH := .env.database.production
 API_ENV_PATH := ./apps/api/.env.production
@@ -28,21 +28,29 @@ logs:
 clean:
 	$(BASE) down -v --remove-orphans
 
-build-api:
+fresh-api-build:
+	$(BASE) build ctd-resource-api --no-cache
+
+fresh-web-build:
+	$(BASE) build ctd-resource-web --no-cache
+
+api-build:
 	$(BASE) build ctd-resource-api
 
-build-web:
+web-build:
 	$(BASE) build ctd-resource-web
 
 help:
 	@echo "Comandos disponíveis:"
-	@echo "  fresh-build  : Build completo sem cache"
-	@echo "  build        : Build incremental com cache"
-	@echo "  up           : Cria e inicia os containers"
-	@echo "  start        : Inicia os containers"
-	@echo "  stop         : Para os containers"
-	@echo "  down         : Remove containers e redes"
-	@echo "  logs         : Mostra logs em tempo real"
-	@echo "  clean        : Limpa todos os recursos"
-	@echo "  build-api    : Build da API"
-	@echo "  build-web    : Build da Web"
+	@echo "  fresh-build     : Build completo sem cache"
+	@echo "  build           : Build incremental com cache"
+	@echo "  up              : Cria e inicia os containers"
+	@echo "  start           : Inicia os containers"
+	@echo "  stop            : Para os containers"
+	@echo "  down            : Remove containers e redes"
+	@echo "  logs            : Mostra logs em tempo real"
+	@echo "  clean           : Limpa todos os recursos"
+	@echo "  fresh-api-build : Build da API sem cache"
+	@echo "  fresh-web-build : Build da Web sem cache"
+	@echo "  api-build       : Build da API"
+	@echo "  web-build       : Build da Web"

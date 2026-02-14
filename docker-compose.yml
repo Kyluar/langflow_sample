@@ -28,7 +28,7 @@ services:
       - .env.database.production
       - ./apps/api/.env.production
     ports:
-      - "${API_PORT:-3001}:3001"
+      - "${API_PORT:-3001}:${API_PORT:-3001}"
     depends_on:
       ctd-resource-db:
         condition: service_healthy

@@ -1,7 +1,8 @@
 #!/bin/sh
+# ATENTION: This file needs to be in LF format to be found inside the container
 
-pnpm db:deploy
+pnpm db:deploy --cache=local:
 
-pnpm db:seed
+pnpm db:seed --cache=local:
 
-node apps/api/dist/main
+pnpm --filter=api prod

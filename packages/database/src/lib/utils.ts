@@ -5,12 +5,11 @@ export function generateDatabaseUrl(): string {
 		POSTGRES_USER,
 		POSTGRES_PASSWORD,
 		POSTGRES_HOST,
-		POSTGRES_PORT,
 		POSTGRES_DB,
 		POSTGRES_DB_SCHEMA
 	} = process.env
 
-	return `postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=${POSTGRES_DB_SCHEMA}`
+	return `postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}?schema=${POSTGRES_DB_SCHEMA}`
 }
 
 type SeedDatabaseParams = {

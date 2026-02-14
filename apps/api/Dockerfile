@@ -1,7 +1,7 @@
 FROM node:lts-alpine3.23 AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+RUN npm install -g pnpm@9.0.0
 WORKDIR /app
 
 FROM base AS pruner
@@ -17,10 +17,10 @@ RUN pnpm install --frozen-lockfile
 FROM base AS builder
 COPY --from=installer /app/ .
 COPY --from=pruner /app/out/full .
-
 RUN pnpm db:generate
-
 RUN pnpm run build
+RUN apk add dos2unix
+RUN dos2unix ./apps/api/entrypoint.sh
 
 FROM base AS runner
 ENV NODE_ENV=production

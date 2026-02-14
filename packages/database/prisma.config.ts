@@ -1,14 +1,14 @@
-import { config } from 'dotenv'
-import path from 'node:path'
+// import path from 'node:path'
+// import { config } from 'dotenv'
 import { generateDatabaseUrl } from './src/lib/utils'
 
-if (!process.env.NODE_ENV) {
-	config({
-		path: path.resolve(import.meta.dirname, `../../.env.database.development`)
-	})
-}
+// if (!process.env.NODE_ENV) {
+// 	config({
+// 		path: path.resolve(import.meta.dirname, `../../.env.database.development`)
+// 	})
+// }
 
-import 'dotenv/config'
+// import 'dotenv/config'
 import { defineConfig } from 'prisma/config'
 
 const DATABASE_URL = generateDatabaseUrl()
@@ -23,5 +23,3 @@ export default defineConfig({
 		url: DATABASE_URL
 	}
 })
-
-export { DATABASE_URL }
