@@ -17,7 +17,6 @@ RUN pnpm install --frozen-lockfile
 FROM base AS builder
 COPY --from=installer /app/ .
 COPY --from=pruner /app/out/full .
-RUN pnpm db:generate
 RUN pnpm run build
 RUN apk add dos2unix
 RUN dos2unix ./apps/api/entrypoint.sh

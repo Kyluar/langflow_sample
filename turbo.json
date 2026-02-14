@@ -39,20 +39,7 @@
       "dependsOn": ["db:generate"],
       "outputs": ["dist/**"]
     },
-    "@repo/database#db:migrate": {
-      "cache": false,
-      "persistent": true
-    },
     "@repo/database#db:generate": {
-      "cache": false
-    },
-    "@repo/database#db:seed": {
-      "cache": false
-    },
-    "@repo/database#db:deploy": {
-      "cache": false
-    },
-    "@repo/database#db:deploy:test": {
       "cache": false
     }
   }

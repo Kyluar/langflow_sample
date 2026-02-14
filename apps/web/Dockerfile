@@ -3,7 +3,7 @@ RUN apk update
 RUN apk add --no-cache libc6-compat
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+RUN npm install -g pnpm@9.0.0
 WORKDIR /app
 
 FROM base AS pruner

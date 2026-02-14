@@ -16,10 +16,12 @@
     "format": "biome format --write",
     "check-types": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate",
     "db:seed": "prisma db seed",
     "db:deploy": "prisma migrate deploy",
+    "db:migrate": "dotenv -e ../../.env.database.development -- prisma migrate dev",
+    "db:seed:dev": "dotenv -e ../../.env.database.development -- prisma db seed",
+    "db:seed:test": "dotenv -e ../../.env.database.test -- prisma db seed",
     "db:deploy:test": "dotenv -e ../../.env.database.test -- prisma migrate deploy"
   },
   "keywords": [],
