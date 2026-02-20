@@ -1,17 +1,21 @@
-import { PrismaPg } from '@prisma/adapter-pg'
-import { transformDatabaseUrl } from '@repo/config'
-import { PrismaClient } from '../src/generated/prisma/client'
+import { embeddingEnvSchema, transformDatabaseUrl } from '@repo/config'
+import { extendPrismaClientFactory } from '../src/lib/extensions'
 import { seedDocuments, seedUsers } from '../src/lib/seed/data'
-import { seedDatabase } from '../src/lib/utils'
+import { type EmbeddingParams, seedDatabase } from '../src/lib/utils'
 
 const connectionString = transformDatabaseUrl.parse(process.env)
-const schema = process.env.POSTGRES_DB_SCHEMA
-const adapter = new PrismaPg({ connectionString }, { schema })
-const prisma = new PrismaClient({ adapter })
+const parseResult = embeddingEnvSchema.parse(process.env)
+const embeddingParams: Omit<EmbeddingParams, 'prompt'> = {
+	url: parseResult.EMBEDDING_URL,
+	model: parseResult.EMBEDDING_MODEL_NAME,
+	dimensions: parseResult.EMBEDDING_DIMENSIONS
+}
+
+const extendedPrisma = extendPrismaClientFactory(connectionString)
 
 async function main() {
 	await seedDatabase({
-		prisma,
+		prisma: extendedPrisma,
 		models: {
 			// biome-ignore-start lint/suspicious/noExplicitAny: Required
 			user: {
@@ -23,7 +27,9 @@ async function main() {
 				whereCb: (item: any) => ({ title: item.title })
 			}
 			// biome-ignore-end lint/suspicious/noExplicitAny: Required
-		}
+		},
+		embeddingParams,
+		log: true
 	})
 }
 
@@ -33,5 +39,5 @@ main()
 		process.exit(1)
 	})
 	.finally(async () => {
-		await prisma.$disconnect()
+		await extendedPrisma.$disconnect()
 	})

@@ -1,12 +1,12 @@
 services:
   ctd-resource-db:
-    image: postgres:alpine3.23
+    image: pgvector/pgvector:pg18-trixie
     hostname: db
     container_name: ctd-resource-db
     restart: always
     env_file: .env.database.production
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - "5432:5432"
     networks:
       - ctd-resource-network
     healthcheck:
@@ -26,6 +26,7 @@ services:
     restart: always
     env_file:
       - .env.database.production
+      - .env.embedding.production
       - ./apps/api/.env.production
     ports:
       - "${API_PORT:-3001}:${API_PORT:-3001}"

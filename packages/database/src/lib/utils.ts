@@ -1,7 +1,50 @@
-import type { Prisma, PrismaClient } from '../generated/prisma/client.js'
+import type { EmbeddingResponse } from '@repo/config'
+import type { Prisma } from '../generated/prisma/client.js'
+import type {
+	CreateWithEmbeddingParams,
+	ExtendedPrismaClient
+} from './extensions/index.js'
+
+export type EmbeddingParams = {
+	url: string
+	model: string
+	prompt: string
+	dimensions: number
+}
+
+export async function embedding({
+	dimensions,
+	url,
+	model,
+	prompt
+}: EmbeddingParams): Promise<string> {
+	try {
+		const res = await fetch(url, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				model,
+				prompt
+			})
+		})
+
+		const resJson = (await res.json()) as EmbeddingResponse
+		const vetor = resJson.embedding
+
+		if (vetor.length !== dimensions)
+			throw new Error(
+				`Dimensão de vetor incompatível: esperado
+					${dimensions} recebido ${vetor.length}`
+			)
+
+		return `[${vetor.join(',')}]`
+	} catch (e) {
+		throw new Error(`Embedding failed: ${e}`)
+	}
+}
 
 type SeedDatabaseParams = {
-	prisma: PrismaClient
+	prisma: ExtendedPrismaClient
 	models: {
 		[key: string]: {
 			data: unknown[]
@@ -9,15 +52,18 @@ type SeedDatabaseParams = {
 		}
 	}
 	log?: boolean
+	embeddingParams: Omit<EmbeddingParams, 'prompt'>
 }
 
 export async function seedDatabase({
 	prisma,
 	models,
-	log = true
+	log = true,
+	embeddingParams
 }: SeedDatabaseParams): Promise<void> {
+	const { document, ...otherModels } = models
 	const transactions: Prisma.PrismaPromise<unknown>[] = Object.entries(
-		models
+		otherModels
 	).flatMap(([key, obj]) => {
 		const { data, whereCb } = obj
 
@@ -30,12 +76,28 @@ export async function seedDatabase({
 			})
 		)
 	})
-
+	let insertedRows: number = 0
 	try {
-		const result = await prisma.$transaction(transactions)
+		if (document?.data) {
+			const docPromises = (
+				document.data as CreateWithEmbeddingParams['data'][]
+			).map((data) =>
+				prisma.document.safeCreateWithEmbedding({
+					data,
+					embeddingParams
+				})
+			)
+
+			const docResults = await Promise.all(docPromises)
+			insertedRows += docResults.length
+		}
+
+		const tResults = await prisma.$transaction(transactions)
+		insertedRows += tResults.length
+
 		if (log)
 			console.info(
-				`✅ Database seeded successfully! ${result.length} records processed.`
+				`✅ Database seeded successfully! ${insertedRows} records processed.`
 			)
 	} catch (error) {
 		console.error('❌ Error seeding database:', error)
@@ -44,31 +106,30 @@ export async function seedDatabase({
 }
 
 export async function cleanDatabase(
-	prisma: PrismaClient,
-	schema: string,
+	prisma: ExtendedPrismaClient,
 	log: boolean = true
 ): Promise<void> {
 	const models = await prisma.$queryRaw<Array<{ tablename: string }>>`
 	SELECT tablename FROM pg_tables
-	WHERE schemaname = ${schema}
+	WHERE schemaname = 'public'
 	AND tablename != '_prisma_migrations';
   `
 
 	if (models.length === 0) {
-		console.warn(`⚠️ Aviso: Nenhuma tabela encontrada no schema "${schema}".`)
+		console.warn(`⚠️ Aviso: Nenhuma tabela encontrada".`)
 		return
 	}
 
 	const requests = models.map((row) =>
 		prisma.$executeRawUnsafe(
-			`TRUNCATE TABLE "${schema}"."${row.tablename}" RESTART IDENTITY CASCADE;`
+			`TRUNCATE TABLE "${row.tablename}" RESTART IDENTITY CASCADE;`
 		)
 	)
 
 	try {
 		await prisma.$transaction(requests)
-		if (log) console.info(`Schema ${schema} cleaned successfully!`)
+		if (log) console.info('✅ Database cleaned successfully!')
 	} catch (error) {
-		console.error(`❌ Error found when cleaning ${schema} schema:`, error)
+		console.error('❌ Error cleaning database', error)
 	}
 }
