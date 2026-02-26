@@ -9,15 +9,17 @@ import {
 	Post
 } from '@nestjs/common'
 import { RESOURCES } from '@repo/constants'
+import { SemanticSearchParams } from '@repo/database'
 import { ApiSuccessResponse, DocumentSchema } from '@repo/schemas'
 import {
 	CreateDocumentDto,
 	UpdateDocumentDto
 } from 'src/lib/types/dto/document.dto'
+import type { IDocumentController } from 'src/lib/types/interfaces/document.inteface'
 import { DocumentService } from './document.service'
 
 @Controller(RESOURCES.DOCUMENTS)
-export class DocumentController {
+export class DocumentController implements IDocumentController {
 	constructor(private readonly service: DocumentService) {}
 
 	@Get(':id')
@@ -35,6 +37,16 @@ export class DocumentController {
 		@Param('title') title: string
 	): Promise<ApiSuccessResponse<DocumentSchema>> {
 		const result = await this.service.getDocumentByTitle(title)
+		return {
+			data: result
+		}
+	}
+
+	@Get('/search/semantic')
+	async semanticSearch(
+		@Body('query') query: SemanticSearchParams['query']
+	): Promise<ApiSuccessResponse<DocumentSchema[]>> {
+		const result = await this.service.searchSemantically(query)
 		return {
 			data: result
 		}

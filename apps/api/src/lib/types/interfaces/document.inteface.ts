@@ -1,4 +1,4 @@
-import type { Prisma } from '@repo/database'
+import type { Prisma, SemanticSearchParams } from '@repo/database'
 import type { ApiSuccessResponse, DocumentSchema } from '@repo/schemas'
 import type { CreateDocumentDto, UpdateDocumentDto } from '../dto/document.dto'
 
@@ -25,6 +25,9 @@ export interface IDocumentRepository {
 	deleteDocument(
 		where: Prisma.DocumentWhereUniqueInput
 	): Promise<DocumentSchema>
+	searchDocumentSemantically(
+		params: Omit<SemanticSearchParams, 'embeddingParams'>
+	): Promise<DocumentSchema[]>
 }
 
 export interface IDocumentService {
@@ -36,6 +39,9 @@ export interface IDocumentService {
 		data: UpdateDocumentDto
 	): Promise<DocumentSchema>
 	deleteDocumentById(id: string): Promise<DocumentSchema>
+	searchSemantically(
+		query: SemanticSearchParams['query']
+	): Promise<DocumentSchema[]>
 }
 
 export interface IDocumentController {
@@ -49,4 +55,7 @@ export interface IDocumentController {
 		data: UpdateDocumentDto
 	): Promise<ApiSuccessResponse<DocumentSchema>>
 	deleteDocument(id: string): Promise<ApiSuccessResponse<DocumentSchema>>
+	semanticSearch(
+		query: SemanticSearchParams['query']
+	): Promise<ApiSuccessResponse<DocumentSchema[]>>
 }

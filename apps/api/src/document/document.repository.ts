@@ -1,6 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { EmbeddingParams, type Prisma } from '@repo/database'
+import {
+	EmbeddingParams,
+	type Prisma,
+	type SemanticSearchParams
+} from '@repo/database'
+import { DocumentSchema } from '@repo/schemas'
 import { CreateDocumentDto } from 'src/lib/types/dto/document.dto'
 import type {
 	GetDocumentsParams,
@@ -56,5 +61,19 @@ export class DocumentRepository implements IDocumentRepository {
 
 	deleteDocument(where: Prisma.DocumentWhereUniqueInput) {
 		return this.prisma.client.document.delete({ where })
+	}
+
+	searchDocumentSemantically(
+		params: Omit<SemanticSearchParams, 'embeddingParams'>
+	): Promise<DocumentSchema[]> {
+		const embeddingParams: Omit<EmbeddingParams, 'prompt'> = {
+			url: this.config.getOrThrow('EMBEDDING_URL'),
+			dimensions: this.config.getOrThrow<number>('EMBEDDING_DIMENSIONS'),
+			model: this.config.getOrThrow('EMBEDDING_MODEL_NAME')
+		}
+		return this.prisma.client.document.semanticSearch({
+			...params,
+			embeddingParams
+		})
 	}
 }

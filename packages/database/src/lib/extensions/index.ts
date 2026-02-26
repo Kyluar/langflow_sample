@@ -13,6 +13,12 @@ export type UpdateWithEmbeddingParams = {
 	embeddingParams: Omit<EmbeddingParams, 'prompt'>
 }
 
+export type SemanticSearchParams = {
+	query: string
+	take?: number
+	embeddingParams: Omit<EmbeddingParams, 'prompt'>
+}
+
 export const documentExtension = Prisma.defineExtension((client) => {
 	return client.$extends({
 		name: 'documentWithEmbedding',
@@ -96,6 +102,24 @@ export const documentExtension = Prisma.defineExtension((client) => {
                     `
 					// biome-ignore lint/style/noNonNullAssertion: Se o insert acima falhar ele lançará uma execeção
 					return result[0]!
+				},
+
+				/**
+				 * Busca documentos de forma semântica
+				 */
+				async semanticSearch({
+					embeddingParams,
+					query,
+					take = 5
+				}: SemanticSearchParams) {
+					const vectorString = await embedding({
+						prompt: query,
+						...embeddingParams
+					})
+					return await client.$queryRaw<Prisma.DocumentModel[]>`
+							SELECT * FROM "Document"
+							ORDER BY "embedding" <=> ${vectorString}::vector
+							LIMIT ${take};`
 				}
 			}
 		}
