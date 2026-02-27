@@ -117,7 +117,7 @@ export const documentExtension = Prisma.defineExtension((client) => {
 						...embeddingParams
 					})
 					return await client.$queryRaw<Prisma.DocumentModel[]>`
-							SELECT * FROM "Document"
+							SELECT id, title, content, "createdAt", "updatedAt" FROM "Document"
 							ORDER BY "embedding" <=> ${vectorString}::vector
 							LIMIT ${take};`
 				}
