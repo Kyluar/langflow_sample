@@ -42,7 +42,7 @@ export class DocumentController implements IDocumentController {
 		}
 	}
 
-	@Get('/search/semantic')
+	@Post('/search')
 	async semanticSearch(
 		@Body('query') query: SemanticSearchParams['query']
 	): Promise<ApiSuccessResponse<DocumentSchema[]>> {
