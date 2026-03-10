@@ -11,6 +11,7 @@ body {
 		'sidenav main';
 	min-height: 100vh;
 	overflow-y: auto;
+	background-color: white;
 }
 
 #web-header {
@@ -49,6 +50,7 @@ body {
 
 #web-main {
 	grid-area: main;
+	position: relative;
 }
 
 @media (max-width: 900px) {

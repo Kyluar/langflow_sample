@@ -1,6 +1,6 @@
 import type { RESOURCES } from '@repo/constants'
 import type { DataType } from '@repo/schemas'
-import type { ApiRequestParams } from './api'
+import type { ApiRequestParams } from './axios'
 
 export type ApiActionParams<T extends DataType> = ApiRequestParams<T> & {
 	successMessage: string
@@ -10,4 +10,14 @@ export type ApiActionParams<T extends DataType> = ApiRequestParams<T> & {
 export type ApiActionReturn<T extends DataType> = {
 	message: string
 	data: T | null
+}
+
+export type LangFlowActionParams = {
+	initialState: LangFlowActionReturn
+	formData: FormData
+}
+
+export type LangFlowActionReturn = {
+	message: string | null
+	timestamp: string | null
 }
