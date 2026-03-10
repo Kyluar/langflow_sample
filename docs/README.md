@@ -1,11 +1,11 @@
 # Contexto do Sistema
 
-![Texto Alternativo](./ctd_resource_system_context.png)
+![Texto Alternativo](./langflow_sample_system_context.drawio.png)
 
-> Arquivo [PDF](./ctd_resource_system_context.pdf) disponível para download!
+> Arquivo [PDF](./langflow_sample_system_context.drawio.pdf) disponível para download!
 
 # Contexto dos Contêineres
 
-![Texto Alternativo](./ctd_resource_container_context.png)
+![Texto Alternativo](./langflow_sample_container_context.drawio.png)
 
-> Arquivo [PDF](./ctd_resource_container_context.pdf) disponível para download!
+> Arquivo [PDF](./langflow_sample_container_context.drawio.pdf) disponível para download!
