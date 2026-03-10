@@ -1,6 +1,6 @@
 # 📝 Visão Geral
 
-Este projeto é a aplicação central de Documentação e Onboarding da CTD. Ele foi concebido para ser a **"fonte única da verdade"** para o time de desenvolvimento, consolidando guias, padrões arquiteturais e manuais de ferramentas em um único local acessível e interativo. Consulte a pasta [docs] para detalhes técnicos da arquitetura.
+Este projeto serve para facilitar a **Documentação de processos** e **Onboarding de novos funcionários**. Ele foi concebido para consolidar guias, padrões arquiteturais e manuais de ferramentas em um único local acessível e interativo. Consulte a pasta [docs] para detalhes técnicos da arquitetura.
 
 ### 🤖 Assistente de IA com `RAG`
 
@@ -8,7 +8,7 @@ O diferencial estratégico deste projeto é o seu Assistente de IA Inteligente. 
 
 - **Recuperação (Retrieval)**: O sistema busca trechos de documentação relevantes no banco de dados vetorial (`pgvector`).
 - **Aumentação (Augmented)**: O contexto é enviado ao modelo de linguagem via `Langflow`.
-- **Geração (Generation)**: A IA responde baseada nos manuais da CTD, garantindo precisão e evitando alucinações.
+- **Geração (Generation)**: A IA responde baseada nos documentos armazenados, garantindo precisão nas suas respostas e evitando alucinações.
 
 ### 🏎️ Gerenciamento de Monorepo (`Turborepo`)
 
@@ -19,12 +19,6 @@ Para gerenciar a complexidade de múltiplos projetos (Web, Api e Packages) em um
 - **Pipeline Inteligente**: Ele entende as dependências entre os projetos. Se você alterar apenas o Back-end, o Turbo sabe que não precisa re-testar o Mobile.
 - **Remote Caching**: O Turbo armazena o cache dos builds e testes. Se um colega (ou o CI/CD) já rodou um build, você pode baixar o resultado pronto em vez de compilar tudo do zero.
 - **Execução em Paralelo**: Ele roda tarefas simultâneas de forma otimizada, aproveitando todos os núcleos do seu processador.
-
-### 🏗️ Filosofia do Projeto
-
-- **Isolamento**: Ninguém precisa instalar o banco de dados ou o ambiente de IA localmente; o `Docker` cuida disso.
-- **Consistência**: O `Biome` garante que o código tenha a mesma "cara", e o `Husky` impede commits fora do padrão.
-- **Autonomia**: Com o assistente `RAG`, o desenvolvedor tem suporte 24/7 para tirar dúvidas sobre o ambiente de trabalho sem depender de outro colega.
 
 ### 🛠️ Stack Tecnológica
 
@@ -105,7 +99,7 @@ Esse arquivo é utilizado para configurar o **Web**, veja o uso de cada variáve
 
 1. Clonar o repositório
 ```sh
-git clone https://github.com/Renn4nn/ctd-resource
+git clone https://github.com/Kyluar/langflow_sample
 ```
 2. [Configurar o ambiente](#📦-pré-requisitos)
 > Para os ambientes de **desenvolvimento** e **teste**, é necessário ter uma instância do **PostgreSQL + pgvector** sendo **executada local/servidor**
