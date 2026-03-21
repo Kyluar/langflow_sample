@@ -1,6 +1,7 @@
 import { z } from '@repo/config'
 import type { Prisma } from '@repo/database'
 import type { ApiSuccessResponse } from '../api/api.response.types.js'
+import { timestampSchema } from '../common/common.types.js'
 
 export const createDocumentSchema = z.strictObject({
 	title: z.string().trim().nonempty().max(50),
@@ -12,8 +13,7 @@ export const updateDocumentSchema = createDocumentSchema.partial()
 export const documentSchema = z.strictObject({
 	id: z.uuid(),
 	...createDocumentSchema.shape,
-	updatedAt: z.coerce.date(),
-	createdAt: z.coerce.date()
+	...timestampSchema.shape
 }) satisfies z.ZodType<Prisma.DocumentModel>
 
 export const documentResponseSchema = z.strictObject({

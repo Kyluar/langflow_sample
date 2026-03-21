@@ -11,8 +11,10 @@ import {
 import { RESOURCES } from '@repo/constants'
 import { SemanticSearchParams } from '@repo/database'
 import { ApiSuccessResponse, DocumentSchema } from '@repo/schemas'
+import { ZodResponse } from 'nestjs-zod'
 import {
 	CreateDocumentDto,
+	DocumentDto,
 	UpdateDocumentDto
 } from 'src/lib/types/dto/document.dto'
 import type { IDocumentController } from 'src/lib/types/interfaces/document.inteface'
@@ -61,7 +63,7 @@ export class DocumentController implements IDocumentController {
 	}
 
 	@Post()
-	// ZodResponse({ type: DocumentDto }) This feature is currently disabled due to issues with SwaggerApi and Zod integration
+	@ZodResponse({ type: DocumentDto })
 	async createDocument(
 		@Body() documentData: CreateDocumentDto
 	): Promise<ApiSuccessResponse<DocumentSchema>> {
@@ -72,7 +74,7 @@ export class DocumentController implements IDocumentController {
 	}
 
 	@Patch(':id')
-	// ZodResponse({ type: DocumentDto }) This feature is currently disabled due to issues with SwaggerApi and Zod integration
+	@ZodResponse({ type: DocumentDto })
 	async updateDocument(
 		@Param('id', ParseUUIDPipe) id: string,
 		@Body() data: UpdateDocumentDto
