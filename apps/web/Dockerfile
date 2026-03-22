@@ -17,6 +17,8 @@ COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 RUN pnpm install --frozen-lockfile
 
 FROM base AS builder
+ARG API_BASE_URL
+ENV API_BASE_URL=$API_BASE_URL
 COPY --from=installer /app/ .
 COPY --from=pruner /app/out/full .
 RUN pnpm run build

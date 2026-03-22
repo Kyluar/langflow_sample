@@ -1,14 +1,30 @@
-.PHONY: fresh-build build up start stop remove logs clean help fresh-api-build fresh-web-build api-build web-build
+.PHONY: fresh-build build deploy up start stop remove logs clean help fresh-api-build fresh-web-build api-build web-build
 
 DATABASE_ENV_PATH := .env.database.production
 API_ENV_PATH := ./apps/api/.env.production
 BASE := docker-compose --env-file $(DATABASE_ENV_PATH) --env-file $(API_ENV_PATH) -f docker-compose.yml
 
+ifeq ($(OS),Windows_NT)
+    SLEEP := timeout /t 15 /nobreak
+else
+    SLEEP := sleep 15
+endif
+
 fresh-build:
-	$(BASE) build --no-cache
+	$(BASE) build ctd-resource-db ctd-resource-api --no-cache
+	$(BASE) up -d ctd-resource-db ctd-resource-api
+	@echo "Aguardando API iniciar..."
+	$(SLEEP)
+	$(BASE) build ctd-resource-web --no-cache
+	$(BASE) down ctd-resource-db ctd-resource-api
 
 build:
-	$(BASE) build
+	$(BASE) build ctd-resource-db ctd-resource-api
+	$(BASE) up -d ctd-resource-db ctd-resource-api
+	@echo "Aguardando API iniciar..."
+	$(SLEEP)
+	$(BASE) build ctd-resource-web
+	$(BASE) down ctd-resource-db ctd-resource-api
 
 up:
 	$(BASE) up -d

@@ -17,6 +17,7 @@ axiosRetry(api, {
 		return retryCount * 1000
 	},
 	retryCondition: (error) => {
+		if (error.code === 'ENOTFOUND') return false
 		return (
 			axiosRetry.isNetworkOrIdempotentRequestError(error) ||
 			error.code === 'ECONNREFUSED'
